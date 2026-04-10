@@ -1,11 +1,23 @@
 import { useState, useMemo } from 'react';
-import { useArtists, useGridAssignments, useCreateArtist, useUpdateArtist, useDeleteArtist } from '@/hooks/useGridAssignments';
+import { useArtists, useGridAssignments, useCreateArtist, useUpdateArtist, useDeleteArtist, useUpdateGridAssignment } from '@/hooks/useGridAssignments';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { Pencil, Trash2, Upload, Plus, Download, Search } from 'lucide-react';
+import { Database } from '@/integrations/supabase/types';
+
+type GridStatus = Database['public']['Enums']['grid_status'];
+
+const STATUS_OPTIONS: { value: GridStatus; label: string }[] = [
+  { value: 'available', label: 'Available' },
+  { value: 'assigned', label: 'Assigned' },
+  { value: 'in_progress', label: 'In Progress' },
+  { value: 'completed', label: 'Completed' },
+  { value: 'collected', label: 'Collected' },
+];
 
 export default function Artists() {
   const { data: artists, isLoading } = useArtists();
@@ -13,21 +25,37 @@ export default function Artists() {
   const createArtist = useCreateArtist();
   const updateArtist = useUpdateArtist();
   const deleteArtist = useDeleteArtist();
+  const updateGrid = useUpdateGridAssignment();
 
   const [search, setSearch] = useState('');
   const [showAdd, setShowAdd] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
-  const [form, setForm] = useState({ name: '', email: '', phone: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', gridCell: '', status: '' as string });
   const [showImport, setShowImport] = useState(false);
 
   // Map artist ID to grid assignments
   const artistGridMap = useMemo(() => {
-    const map = new Map<string, { grid_cell: string; status: string }>();
+    const map = new Map<string, { grid_cell: string; status: GridStatus }>();
     assignments?.forEach(a => {
       if (a.artist_id) map.set(a.artist_id, { grid_cell: a.grid_cell, status: a.status });
     });
     return map;
   }, [assignments]);
+
+  // Available grid cells (unassigned or currently assigned to editing artist)
+  const availableGridCells = useMemo(() => {
+    if (!assignments) return [];
+    return assignments
+      .filter(a => !a.artist_id || a.artist_id === editId)
+      .map(a => a.grid_cell)
+      .sort((a, b) => {
+        const [aCol, aRow] = [a[0], parseInt(a.slice(1))];
+        const [bCol, bRow] = [b[0], parseInt(b.slice(1))];
+        return aCol === bCol ? aRow - bRow : aCol.localeCompare(bCol);
+      });
+  }, [assignments, editId]);
+
+  const defaultForm = { name: '', email: '', phone: '', gridCell: '', status: '' };
 
   const filtered = useMemo(() => {
     if (!artists) return [];
@@ -44,16 +72,40 @@ export default function Artists() {
   const handleSave = async () => {
     if (!form.name.trim()) return;
     try {
+      let artistId = editId;
       if (editId) {
-        await updateArtist.mutateAsync({ id: editId, ...form });
+        await updateArtist.mutateAsync({ id: editId, name: form.name, email: form.email, phone: form.phone });
         toast.success('Artist updated');
       } else {
-        await createArtist.mutateAsync(form);
+        const created = await createArtist.mutateAsync({ name: form.name, email: form.email, phone: form.phone });
+        artistId = created.id;
         toast.success('Artist added');
       }
+
+      // Handle grid assignment
+      if (form.gridCell && artistId) {
+        await updateGrid.mutateAsync({
+          gridCell: form.gridCell,
+          artistId,
+          status: (form.status as GridStatus) || 'assigned',
+        });
+      }
+
+      // If editing and grid cell changed, clear old assignment
+      if (editId) {
+        const oldGrid = artistGridMap.get(editId);
+        if (oldGrid && oldGrid.grid_cell !== form.gridCell) {
+          await updateGrid.mutateAsync({
+            gridCell: oldGrid.grid_cell,
+            artistId: null,
+            status: 'available',
+          });
+        }
+      }
+
       setShowAdd(false);
       setEditId(null);
-      setForm({ name: '', email: '', phone: '' });
+      setForm(defaultForm);
     } catch {
       toast.error('Failed to save artist');
     }
@@ -121,7 +173,7 @@ export default function Artists() {
             className="pl-9"
           />
         </div>
-        <Button onClick={() => { setForm({ name: '', email: '', phone: '' }); setEditId(null); setShowAdd(true); }}>
+        <Button onClick={() => { setForm(defaultForm); setEditId(null); setShowAdd(true); }}>
           <Plus className="h-4 w-4 mr-1" /> Add Artist
         </Button>
         <Button variant="outline" onClick={() => setShowImport(true)}>
@@ -159,7 +211,7 @@ export default function Artists() {
                     <TableCell className="capitalize">{grid?.status?.replace('_', ' ') || '—'}</TableCell>
                     <TableCell>
                       <div className="flex gap-1">
-                        <Button variant="ghost" size="icon" onClick={() => { setForm({ name: a.name, email: a.email || '', phone: a.phone || '' }); setEditId(a.id); setShowAdd(true); }}>
+                        <Button variant="ghost" size="icon" onClick={() => { const g = artistGridMap.get(a.id); setForm({ name: a.name, email: a.email || '', phone: a.phone || '', gridCell: g?.grid_cell || '', status: g?.status || '' }); setEditId(a.id); setShowAdd(true); }}>
                           <Pencil className="h-4 w-4" />
                         </Button>
                         <Button variant="ghost" size="icon" onClick={() => handleDelete(a.id, a.name)}>
@@ -188,6 +240,32 @@ export default function Artists() {
             <Input placeholder="Name *" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
             <Input placeholder="Email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
             <Input placeholder="Phone" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
+            <div>
+              <label className="text-sm font-medium mb-1 block">Grid Cell</label>
+              <Select value={form.gridCell} onValueChange={v => setForm(f => ({ ...f, gridCell: v }))}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select grid cell" />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableGridCells.map(cell => (
+                    <SelectItem key={cell} value={cell}>{cell}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1 block">Status</label>
+              <Select value={form.status} onValueChange={v => setForm(f => ({ ...f, status: v }))}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  {STATUS_OPTIONS.map(opt => (
+                    <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             <Button onClick={handleSave} disabled={!form.name.trim()} className="w-full">
               {editId ? 'Update' : 'Add Artist'}
             </Button>
