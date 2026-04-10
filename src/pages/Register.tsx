@@ -100,10 +100,40 @@ export default function Register() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b bg-card px-4 py-3">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-lg font-bold">🎨 Community Mural — Artist Registration</h1>
-          <p className="text-sm text-muted-foreground">Pick an available cell and register to participate</p>
+      <header className="border-b bg-card px-6 py-6">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">🎨 Art of Aviation Community Mural</h1>
+
+          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+            Welcome to the inaugural <span className="font-semibold text-foreground">Art of Aviation Community Mural</span>, a collaborative demonstration of Northern Nevada's pioneering spirit, the history of flight, and the creativity that defines our region. The completed mural will be installed and on display at <span className="font-semibold text-foreground">The Discovery Museum</span>, serving as the entrance centerpiece to a new aviation-themed exhibition and helping build excitement for the inaugural <span className="font-semibold text-foreground">Red, White, and Flight Drone Show</span>.
+          </p>
+
+          <div className="space-y-3">
+            <h2 className="text-base sm:text-lg font-semibold text-foreground">Community Partners</h2>
+            <ul className="space-y-2 text-sm text-muted-foreground leading-relaxed">
+              <li>
+                <span className="font-semibold text-foreground">The George W. Gillemot Foundation</span> — funded the original professional mural artwork, supporting aviation education and innovation while helping inspire the next generation of aerospace leaders.
+              </li>
+              <li>
+                <span className="font-semibold text-foreground">Artown</span> — funding the Community Mural Event, expanding the celebration by inviting local artists of all backgrounds to participate in the creation of this landmark piece.
+              </li>
+              <li>
+                <span className="font-semibold text-foreground">The Discovery Museum</span> — hosting the event and showcasing the completed mural, creating an interactive gateway into an aviation-themed exhibit that celebrates exploration, discovery, and innovation.
+              </li>
+            </ul>
+          </div>
+
+          <Card className="bg-muted/50 border-primary/20">
+            <CardContent className="pt-5 pb-5 space-y-2">
+              <h3 className="font-semibold text-foreground">📋 Directions</h3>
+              <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                <li>Select an available square below and register with your <span className="font-medium text-foreground">name</span> and <span className="font-medium text-foreground">phone number</span>.</li>
+                <li>Canvases can be picked up at <span className="font-medium text-foreground">The Discovery Museum</span> anytime after <span className="font-medium text-foreground">May 1</span>.</li>
+                <li>Completed squares must be dropped off at The Discovery no later than <span className="font-medium text-foreground">Monday, June 22nd</span>.</li>
+                <li>Artists may use any material to recreate the grid, but we ask that colors are matched as closely as possible.</li>
+              </ul>
+            </CardContent>
+          </Card>
         </div>
       </header>
 
