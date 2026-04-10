@@ -14,7 +14,101 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      artists: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      grid_assignments: {
+        Row: {
+          artist_id: string | null
+          assigned_at: string | null
+          created_at: string
+          grid_cell: string
+          id: string
+          notes: string | null
+          status: Database["public"]["Enums"]["grid_status"]
+          updated_at: string
+        }
+        Insert: {
+          artist_id?: string | null
+          assigned_at?: string | null
+          created_at?: string
+          grid_cell: string
+          id?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["grid_status"]
+          updated_at?: string
+        }
+        Update: {
+          artist_id?: string | null
+          assigned_at?: string | null
+          created_at?: string
+          grid_cell?: string
+          id?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["grid_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "grid_assignments_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "artists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      status_history: {
+        Row: {
+          changed_by: string | null
+          created_at: string
+          grid_cell: string
+          id: string
+          new_status: Database["public"]["Enums"]["grid_status"]
+          old_status: Database["public"]["Enums"]["grid_status"] | null
+        }
+        Insert: {
+          changed_by?: string | null
+          created_at?: string
+          grid_cell: string
+          id?: string
+          new_status: Database["public"]["Enums"]["grid_status"]
+          old_status?: Database["public"]["Enums"]["grid_status"] | null
+        }
+        Update: {
+          changed_by?: string | null
+          created_at?: string
+          grid_cell?: string
+          id?: string
+          new_status?: Database["public"]["Enums"]["grid_status"]
+          old_status?: Database["public"]["Enums"]["grid_status"] | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +117,12 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      grid_status:
+        | "available"
+        | "assigned"
+        | "in_progress"
+        | "completed"
+        | "collected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +249,14 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      grid_status: [
+        "available",
+        "assigned",
+        "in_progress",
+        "completed",
+        "collected",
+      ],
+    },
   },
 } as const
