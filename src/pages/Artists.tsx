@@ -12,11 +12,9 @@ import { Database } from '@/integrations/supabase/types';
 type GridStatus = Database['public']['Enums']['grid_status'];
 
 const STATUS_OPTIONS: { value: GridStatus; label: string }[] = [
-  { value: 'available', label: 'Available' },
-  { value: 'assigned', label: 'Assigned' },
-  { value: 'in_progress', label: 'In Progress' },
-  { value: 'completed', label: 'Completed' },
-  { value: 'collected', label: 'Collected' },
+  { value: 'registered', label: 'Registered' },
+  { value: 'picked_up', label: 'Picked Up' },
+  { value: 'dropped_off', label: 'Dropped Off' },
 ];
 
 export default function Artists() {
@@ -87,7 +85,7 @@ export default function Artists() {
         await updateGrid.mutateAsync({
           gridCell: form.gridCell,
           artistId,
-          status: (form.status as GridStatus) || 'assigned',
+          status: (form.status as GridStatus) || 'registered',
         });
       }
 
@@ -98,7 +96,7 @@ export default function Artists() {
           await updateGrid.mutateAsync({
             gridCell: oldGrid.grid_cell,
             artistId: null,
-            status: 'available',
+            status: 'registered',
           });
         }
       }
