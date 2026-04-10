@@ -85,7 +85,7 @@ export default function Artists() {
         await updateGrid.mutateAsync({
           gridCell: form.gridCell,
           artistId,
-          status: (form.status as GridStatus) || 'assigned',
+          status: (form.status as GridStatus) || 'registered',
         });
       }
 
@@ -96,7 +96,7 @@ export default function Artists() {
           await updateGrid.mutateAsync({
             gridCell: oldGrid.grid_cell,
             artistId: null,
-            status: 'available',
+            status: 'registered',
           });
         }
       }
