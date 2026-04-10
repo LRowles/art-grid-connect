@@ -1,21 +1,36 @@
 
 
-## Add Grid Assignment and Status to Artist Form
+## Public Artist Self-Registration Page
 
-### What changes
-Enhance the Add/Edit Artist dialog to include:
-1. A **grid cell dropdown** showing all available grid cells (plus the currently assigned one when editing)
-2. A **status dropdown** with the 5 statuses (Available, Assigned, In Progress, Completed, Collected)
+### What it does
+A shareable link (e.g., `/register`) where any artist can see the mural grid, pick an available cell, and register themselves — no login required.
 
-### Technical approach
+### How it works
 
-**File: `src/pages/Artists.tsx`**
-- Expand form state to include `gridCell` and `status` fields
-- Add a `<Select>` dropdown for grid cell, populated from `assignments` data, filtered to show only unassigned cells (plus current cell when editing)
-- Add a `<Select>` dropdown for status with all 5 enum values
-- On save: after creating/updating the artist, call `useUpdateGridAssignment` to assign the selected grid cell and status
-- When editing, pre-populate grid cell and status from `artistGridMap`
-- Import `Select, SelectContent, SelectItem, SelectTrigger, SelectValue` from shadcn
+**1. Database: Allow public read + insert access**
+- Add RLS policies on `grid_assignments` and `artists` allowing `anon` role to:
+  - **SELECT** grid_assignments (so the public grid shows which cells are taken)
+  - **INSERT** into artists (so artists can register)
+  - **UPDATE** grid_assignments (to claim a cell — restricted to cells where `artist_id IS NULL`)
 
-No database changes needed — the existing `grid_assignments` table and `useUpdateGridAssignment` hook already support this.
+**2. New page: `src/pages/Register.tsx`**
+- Shows the mural image with grid overlay (reusing grid layout from GridDashboard)
+- Available cells shown with outline/transparent styling; taken cells shown as filled (no artist details exposed)
+- Click an available cell → opens a registration form asking for name, email, phone
+- On submit: creates artist record, then updates the grid_assignment to link the artist and set status to `registered`
+- Success confirmation with the assigned cell ID
+- Taken cells are not clickable
+
+**3. Routing: Add public route**
+- In `App.tsx`, add `/register` as a public route outside `ProtectedRoutes`
+- The admin dashboard remains protected
+
+**4. Components**
+- `PublicGridView` — simplified read-only grid (no admin controls)
+- `RegistrationForm` — name, email, phone fields + selected cell display
+
+### No changes needed
+- No new database tables
+- No auth changes (anon access via RLS)
+- Admin features remain unchanged
 
