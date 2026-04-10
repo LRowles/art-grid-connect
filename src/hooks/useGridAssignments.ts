@@ -47,24 +47,28 @@ export function useUpdateGridAssignment() {
         .eq('grid_cell', gridCell)
         .single();
 
-      const updateData: Record<string, unknown> = {};
+      let finalStatus = status;
+      let assignedAt: string | null | undefined = undefined;
+
       if (artistId !== undefined) {
-        updateData.artist_id = artistId;
-        if (artistId && (!current || current.status === 'available')) {
-          updateData.status = 'assigned';
-          updateData.assigned_at = new Date().toISOString();
+        if (artistId && (!current || current.status === 'available') && !status) {
+          finalStatus = 'assigned';
+          assignedAt = new Date().toISOString();
         }
-        if (!artistId) {
-          updateData.status = 'available';
-          updateData.assigned_at = null;
+        if (!artistId && !status) {
+          finalStatus = 'available';
+          assignedAt = null;
         }
       }
-      if (status !== undefined) updateData.status = status;
-      if (notes !== undefined) updateData.notes = notes;
 
       const { data, error } = await supabase
         .from('grid_assignments')
-        .update(updateData)
+        .update({
+          ...(artistId !== undefined && { artist_id: artistId }),
+          ...(finalStatus !== undefined && { status: finalStatus }),
+          ...(assignedAt !== undefined && { assigned_at: assignedAt }),
+          ...(notes !== undefined && { notes }),
+        })
         .eq('grid_cell', gridCell)
         .select('*, artists(*)')
         .single();
