@@ -1,11 +1,23 @@
 import { useState, useMemo } from 'react';
-import { useArtists, useGridAssignments, useCreateArtist, useUpdateArtist, useDeleteArtist } from '@/hooks/useGridAssignments';
+import { useArtists, useGridAssignments, useCreateArtist, useUpdateArtist, useDeleteArtist, useUpdateGridAssignment } from '@/hooks/useGridAssignments';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { Pencil, Trash2, Upload, Plus, Download, Search } from 'lucide-react';
+import { Database } from '@/integrations/supabase/types';
+
+type GridStatus = Database['public']['Enums']['grid_status'];
+
+const STATUS_OPTIONS: { value: GridStatus; label: string }[] = [
+  { value: 'available', label: 'Available' },
+  { value: 'assigned', label: 'Assigned' },
+  { value: 'in_progress', label: 'In Progress' },
+  { value: 'completed', label: 'Completed' },
+  { value: 'collected', label: 'Collected' },
+];
 
 export default function Artists() {
   const { data: artists, isLoading } = useArtists();
@@ -13,11 +25,12 @@ export default function Artists() {
   const createArtist = useCreateArtist();
   const updateArtist = useUpdateArtist();
   const deleteArtist = useDeleteArtist();
+  const updateGrid = useUpdateGridAssignment();
 
   const [search, setSearch] = useState('');
   const [showAdd, setShowAdd] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
-  const [form, setForm] = useState({ name: '', email: '', phone: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', gridCell: '', status: '' as string });
   const [showImport, setShowImport] = useState(false);
 
   // Map artist ID to grid assignments
