@@ -45,6 +45,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/register" element={<Register />} />
+            <Route path="/about" element={<About />} />
             <Route path="/*" element={<ProtectedRoutes />} />
           </Routes>
         </BrowserRouter>
