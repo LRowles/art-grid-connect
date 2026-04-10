@@ -117,12 +117,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      grid_status:
-        | "available"
-        | "assigned"
-        | "in_progress"
-        | "completed"
-        | "collected"
+      grid_status: "registered" | "picked_up" | "dropped_off"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -250,13 +245,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      grid_status: [
-        "available",
-        "assigned",
-        "in_progress",
-        "completed",
-        "collected",
-      ],
+      grid_status: ["registered", "picked_up", "dropped_off"],
     },
   },
 } as const
