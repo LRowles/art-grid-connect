@@ -44,9 +44,10 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
+            <Route path="/" element={<Register />} />
             <Route path="/register" element={<Register />} />
             <Route path="/about" element={<About />} />
-            <Route path="/*" element={<ProtectedRoutes />} />
+            <Route path="/admin/*" element={<ProtectedRoutes />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>

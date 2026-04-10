@@ -69,7 +69,7 @@ export default function About() {
 
         {/* CTA */}
         <div className="text-center pt-4 pb-8">
-          <Link to="/register">
+          <Link to="/">
             <Button size="lg" className="text-lg px-8 py-6 font-bold shadow-lg">
               🎨 Register Now — Pick Your Square
             </Button>
