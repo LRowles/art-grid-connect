@@ -51,12 +51,12 @@ export function useUpdateGridAssignment() {
       let assignedAt: string | null | undefined = undefined;
 
       if (artistId !== undefined) {
-        if (artistId && (!current || current.status === 'available') && !status) {
-          finalStatus = 'assigned';
+        if (artistId && (!current || current.status === 'registered') && !status) {
+          finalStatus = 'registered';
           assignedAt = new Date().toISOString();
         }
         if (!artistId && !status) {
-          finalStatus = 'available';
+          finalStatus = 'registered';
           assignedAt = null;
         }
       }

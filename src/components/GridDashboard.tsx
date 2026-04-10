@@ -9,19 +9,15 @@ const COLS = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q
 const ROWS = Array.from({ length: 13 }, (_, i) => i + 1);
 
 const STATUS_COLORS: Record<GridStatus, string> = {
-  available: 'bg-transparent border-2 border-white/60 hover:border-white',
-  assigned: 'bg-blue-500/70 border-2 border-blue-400',
-  in_progress: 'bg-yellow-500/70 border-2 border-yellow-400',
-  completed: 'bg-green-500/70 border-2 border-green-400',
-  collected: 'bg-purple-500/70 border-2 border-purple-400',
+  registered: 'bg-blue-500/70 border-2 border-blue-400',
+  picked_up: 'bg-yellow-500/70 border-2 border-yellow-400',
+  dropped_off: 'bg-green-500/70 border-2 border-green-400',
 };
 
 const STATUS_LABELS: Record<GridStatus, string> = {
-  available: 'Available',
-  assigned: 'Assigned',
-  in_progress: 'In Progress',
-  completed: 'Completed',
-  collected: 'Collected',
+  registered: 'Registered',
+  picked_up: 'Picked Up',
+  dropped_off: 'Dropped Off',
 };
 
 export function GridDashboard() {
@@ -77,7 +73,7 @@ export function GridDashboard() {
             COLS.map(col => {
               const cellId = `${col}${row}`;
               const assignment = assignmentMap.get(cellId);
-              const status: GridStatus = assignment?.status ?? 'available';
+              const status: GridStatus = assignment?.status ?? 'registered';
               return (
                 <button
                   key={cellId}
