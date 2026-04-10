@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -7,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from '@/hooks/use-toast';
 import { CheckCircle2 } from 'lucide-react';
+import { PublicNav } from '@/components/PublicNav';
 
 const COLS = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R'];
 const ROWS = Array.from({ length: 13 }, (_, i) => i + 1);
@@ -50,7 +52,6 @@ export default function Register() {
     mutationFn: async () => {
       if (!selectedCell || !name.trim()) throw new Error('Missing required fields');
 
-      // Create artist
       const { data: artist, error: artistErr } = await supabase
         .from('artists')
         .insert({ name: name.trim(), email: email.trim() || null, phone: phone.trim() || null })
@@ -58,7 +59,6 @@ export default function Register() {
         .single();
       if (artistErr) throw artistErr;
 
-      // Claim grid cell
       const { error: claimErr } = await supabase
         .from('grid_assignments')
         .update({ artist_id: artist.id, status: 'registered' as const, assigned_at: new Date().toISOString() })
@@ -83,59 +83,75 @@ export default function Register() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <Card className="max-w-md w-full text-center">
-          <CardContent className="pt-8 pb-8 space-y-4">
-            <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto" />
-            <h2 className="text-2xl font-bold">You're Registered!</h2>
-            <p className="text-muted-foreground">
-              You've been assigned grid cell <span className="font-bold text-foreground">{success}</span>. 
-              Thank you for participating in the community mural!
-            </p>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen bg-background">
+        <PublicNav />
+        <div className="flex items-center justify-center p-8">
+          <Card className="max-w-md w-full text-center">
+            <CardContent className="pt-8 pb-8 space-y-4">
+              <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto" />
+              <h2 className="text-2xl font-bold">You're Registered!</h2>
+              <p className="text-muted-foreground">
+                You've been assigned grid cell <span className="font-bold text-foreground">{success}</span>.
+                Thank you for participating in the community mural!
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Pick up your canvas at The Discovery Museum after May 1.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b bg-card px-6 py-6">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">🎨 Art of Aviation Community Mural</h1>
+      <PublicNav />
 
-          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-            Welcome to the inaugural <span className="font-semibold text-foreground">Art of Aviation Community Mural</span>, a collaborative demonstration of Northern Nevada's pioneering spirit, the history of flight, and the creativity that defines our region. The completed mural will be installed and on display at <span className="font-semibold text-foreground">The Discovery Museum</span>, serving as the entrance centerpiece to a new aviation-themed exhibition and helping build excitement for the inaugural <span className="font-semibold text-foreground">Red, White, and Flight Drone Show</span>.
+      {/* Welcome hero */}
+      <div className="bg-gradient-to-br from-primary/5 via-accent/5 to-background px-4 py-8">
+        <div className="max-w-3xl mx-auto space-y-5 text-center">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
+            🎨 Art of Aviation Community Mural
+          </h1>
+          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+            Join us in creating a collaborative mural celebrating Northern Nevada's pioneering spirit and the history of flight. Select a square, create your piece, and become part of something extraordinary.
           </p>
 
-          <div className="space-y-3">
-            <h2 className="text-base sm:text-lg font-semibold text-foreground">Community Partners</h2>
-            <ul className="space-y-2 text-sm text-muted-foreground leading-relaxed">
-              <li>
-                <span className="font-semibold text-foreground">The George W. Gillemot Foundation</span> — funded the original professional mural artwork, supporting aviation education and innovation while helping inspire the next generation of aerospace leaders.
-              </li>
-              <li>
-                <span className="font-semibold text-foreground">Artown</span> — funding the Community Mural Event, expanding the celebration by inviting local artists of all backgrounds to participate in the creation of this landmark piece.
-              </li>
-              <li>
-                <span className="font-semibold text-foreground">The Discovery Museum</span> — hosting the event and showcasing the completed mural, creating an interactive gateway into an aviation-themed exhibit that celebrates exploration, discovery, and innovation.
-              </li>
-            </ul>
+          {/* Partner strip */}
+          <div className="flex flex-wrap justify-center gap-3 pt-2">
+            {[
+              { name: 'Artown', desc: 'Funding the Community Mural' },
+              { name: 'The Discovery Museum', desc: 'Hosting & Showcasing' },
+              { name: 'Gillemot Foundation', desc: 'Original Mural Artwork' },
+            ].map(p => (
+              <div key={p.name} className="bg-card border rounded-lg px-4 py-2 text-center">
+                <div className="font-semibold text-foreground text-sm">{p.name}</div>
+                <div className="text-xs text-muted-foreground">{p.desc}</div>
+              </div>
+            ))}
           </div>
 
-          <Card className="bg-muted/50 border-primary/20">
-            <CardContent className="pt-5 pb-5 space-y-2">
-              <h3 className="font-semibold text-foreground">📋 Directions</h3>
-              <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                <li>Select an available square below and register with your <span className="font-medium text-foreground">name</span> and <span className="font-medium text-foreground">phone number</span>.</li>
-                <li>Canvases can be picked up at <span className="font-medium text-foreground">The Discovery Museum</span> anytime after <span className="font-medium text-foreground">May 1</span>.</li>
-                <li>Completed squares must be dropped off at The Discovery no later than <span className="font-medium text-foreground">Monday, June 22nd</span>.</li>
-                <li>Artists may use any material to recreate the grid, but we ask that colors are matched as closely as possible.</li>
-              </ul>
-            </CardContent>
-          </Card>
+          <Link to="/about" className="inline-block text-sm text-primary hover:underline font-medium">
+            Learn more about the project & partners →
+          </Link>
         </div>
-      </header>
+      </div>
+
+      {/* Directions */}
+      <div className="max-w-3xl mx-auto px-4 py-4">
+        <Card className="bg-accent/10 border-accent/30">
+          <CardContent className="pt-4 pb-4">
+            <h3 className="font-bold text-foreground mb-2">📋 Directions</h3>
+            <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+              <li>Select an available square below and register with your <span className="font-medium text-foreground">name</span> and <span className="font-medium text-foreground">phone number</span>.</li>
+              <li>Canvases available at <span className="font-medium text-foreground">The Discovery Museum</span> after <span className="font-medium text-foreground">May 1</span>.</li>
+              <li>Completed squares due by <span className="font-medium text-foreground">Monday, June 22nd</span>.</li>
+              <li>Any material welcome — match colors as closely as possible.</li>
+            </ul>
+          </CardContent>
+        </Card>
+      </div>
 
       <div className="max-w-7xl mx-auto p-4 space-y-6">
         {/* Legend */}
@@ -145,7 +161,7 @@ export default function Register() {
             <span className="text-muted-foreground">Available</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-4 h-4 rounded bg-blue-500/70 border-2 border-blue-400" />
+            <div className="w-4 h-4 rounded bg-primary/60 border-2 border-primary/80" />
             <span className="text-muted-foreground">Taken</span>
           </div>
         </div>
@@ -175,10 +191,10 @@ export default function Register() {
                     className={`
                       transition-all duration-150 flex items-center justify-center text-[0.55rem] sm:text-xs font-bold relative
                       ${taken
-                        ? 'bg-blue-500/70 border-2 border-blue-400 text-white/90 cursor-not-allowed'
+                        ? 'bg-primary/60 border border-primary/80 text-primary-foreground/90 cursor-not-allowed'
                         : isSelected
                           ? 'bg-primary/80 border-2 border-primary text-primary-foreground ring-2 ring-primary ring-offset-1 z-10 scale-110'
-                          : 'border border-dashed border-muted-foreground/30 text-muted-foreground/60 hover:bg-primary/10 hover:border-primary/50 cursor-pointer'
+                          : 'border border-dashed border-muted-foreground/30 text-muted-foreground/60 hover:bg-accent/30 hover:border-accent cursor-pointer'
                       }
                     `}
                     title={taken ? `${cellId} — Taken` : `${cellId} — Available`}
@@ -193,7 +209,7 @@ export default function Register() {
 
         {/* Registration form */}
         {selectedCell && (
-          <Card className="max-w-md mx-auto">
+          <Card className="max-w-md mx-auto border-primary/30">
             <CardHeader>
               <CardTitle className="text-lg">Register for Cell {selectedCell}</CardTitle>
             </CardHeader>
