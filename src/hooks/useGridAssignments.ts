@@ -75,11 +75,11 @@ export function useUpdateGridAssignment() {
       if (error) throw error;
 
       // Log status change
-      if (status && current && current.status !== status) {
+      if (finalStatus && current && current.status !== finalStatus) {
         await supabase.from('status_history').insert({
           grid_cell: gridCell,
           old_status: current.status,
-          new_status: status,
+          new_status: finalStatus,
         });
       }
 
