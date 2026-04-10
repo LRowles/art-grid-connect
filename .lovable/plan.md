@@ -1,36 +1,23 @@
 
 
-## Public Artist Self-Registration Page
+## Add Welcome Copy and Directions to Registration Page
 
-### What it does
-A shareable link (e.g., `/register`) where any artist can see the mural grid, pick an available cell, and register themselves — no login required.
+### What changes
+Update `src/pages/Register.tsx` to add a welcome section with event description, partner acknowledgments, and artist directions between the header and the grid.
 
-### How it works
+### Content structure
+1. **Title**: "Art of Aviation Community Mural"
+2. **Welcome paragraph**: Describes the inaugural mural, Northern Nevada's pioneering spirit, aviation history, Discovery Museum installation, and Red White and Flight Drone Show tie-in.
+3. **Community Partners** section with three entries (Gillemot Foundation, Artown, Discovery Museum) — each with a bold name and description.
+4. **Directions** section as a styled callout/card:
+   - Select an available square and register with name and phone number
+   - Canvases available at The Discovery Museum after May 1
+   - Completed squares due back by Monday, June 22nd
+   - Any material allowed; match colors as closely as possible
 
-**1. Database: Allow public read + insert access**
-- Add RLS policies on `grid_assignments` and `artists` allowing `anon` role to:
-  - **SELECT** grid_assignments (so the public grid shows which cells are taken)
-  - **INSERT** into artists (so artists can register)
-  - **UPDATE** grid_assignments (to claim a cell — restricted to cells where `artist_id IS NULL`)
-
-**2. New page: `src/pages/Register.tsx`**
-- Shows the mural image with grid overlay (reusing grid layout from GridDashboard)
-- Available cells shown with outline/transparent styling; taken cells shown as filled (no artist details exposed)
-- Click an available cell → opens a registration form asking for name, email, phone
-- On submit: creates artist record, then updates the grid_assignment to link the artist and set status to `registered`
-- Success confirmation with the assigned cell ID
-- Taken cells are not clickable
-
-**3. Routing: Add public route**
-- In `App.tsx`, add `/register` as a public route outside `ProtectedRoutes`
-- The admin dashboard remains protected
-
-**4. Components**
-- `PublicGridView` — simplified read-only grid (no admin controls)
-- `RegistrationForm` — name, email, phone fields + selected cell display
-
-### No changes needed
-- No new database tables
-- No auth changes (anon access via RLS)
-- Admin features remain unchanged
+### Technical approach
+- Single file edit: `src/pages/Register.tsx`
+- Replace the simple header with a richer welcome section using existing Card/typography components
+- Keep the grid, legend, and registration form unchanged
+- Use a visually distinct callout (e.g., bordered card with a list) for the directions so they stand out
 
