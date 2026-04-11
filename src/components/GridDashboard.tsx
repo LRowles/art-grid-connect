@@ -23,7 +23,7 @@ const ROW_HEIGHTS = H_LINES.slice(0, -1).map((h, i) => H_LINES[i + 1] - h);
 const ROW_FR = ROW_HEIGHTS.map(h => `${h}fr`).join(' ');
 
 const STATUS_COLORS: Record<GridStatus, string> = {
-  registered: 'bg-[#7fff00]/30 border border-[#7fff00]/50 hover:bg-[#7fff00]/50',
+  registered: 'bg-[#dc2626]/30 border border-[#dc2626]/50 hover:bg-[#dc2626]/50',
   picked_up: 'bg-yellow-500/40 border border-yellow-400/60 hover:bg-yellow-500/60',
   dropped_off: 'bg-emerald-500/40 border border-emerald-400/60 hover:bg-emerald-500/60',
 };
@@ -60,7 +60,7 @@ export function GridDashboard() {
     return (
       <div className="flex items-center justify-center h-96">
         <div className="text-center space-y-3">
-          <div className="h-8 w-8 border-2 border-[#7fff00]/30 border-t-[#7fff00] rounded-full animate-spin mx-auto" />
+          <div className="h-8 w-8 border-2 border-[#dc2626]/30 border-t-[#dc2626] rounded-full animate-spin mx-auto" />
           <p className="font-medium text-white/40">Loading grid...</p>
         </div>
       </div>
@@ -73,7 +73,7 @@ export function GridDashboard() {
       <div className="flex flex-wrap gap-3 text-sm">
         <StatBadge label="Total" count={stats.total} color="bg-white/[0.03] text-white/60 border-white/[0.08]" />
         <StatBadge label="Available" count={stats.available} color="bg-white/[0.03] text-white/40 border-white/[0.08]" />
-        <StatBadge label="Registered" count={stats.registered} color="bg-[#7fff00]/10 text-[#7fff00] border-[#7fff00]/25" />
+        <StatBadge label="Registered" count={stats.registered} color="bg-[#dc2626]/10 text-[#dc2626] border-[#dc2626]/25" />
         <StatBadge label="Picked Up" count={stats.picked_up} color="bg-yellow-500/10 text-yellow-400 border-yellow-500/25" />
         <StatBadge label="Dropped Off" count={stats.dropped_off} color="bg-emerald-500/10 text-emerald-400 border-emerald-500/25" />
       </div>

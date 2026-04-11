@@ -33,10 +33,10 @@ export default function Login() {
       <div className="w-full max-w-sm space-y-6">
         {/* Logo area */}
         <div className="text-center space-y-3">
-          <img src={artownLogo} alt="Artown" className="h-14 w-auto rounded-md mx-auto" />
+          <img src={artownLogo} alt="Artown" className="h-14 w-auto mx-auto" />
           <div>
             <h1 className="text-xl font-bold text-white">Mural Grid Tracker</h1>
-            <p className="text-xs text-[#7fff00] font-bold uppercase tracking-widest mt-0.5">Admin Dashboard</p>
+            <p className="text-xs text-[#dc2626] font-bold uppercase tracking-widest mt-0.5">Admin Dashboard</p>
           </div>
         </div>
 
@@ -57,7 +57,7 @@ export default function Login() {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   placeholder="admin@example.com"
-                  className="h-11 bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20 focus:border-[#7fff00]/50 focus:ring-[#7fff00]/20"
+                  className="h-11 bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20 focus:border-[#dc2626]/50 focus:ring-[#dc2626]/20"
                   required
                 />
               </div>
@@ -71,7 +71,7 @@ export default function Login() {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="h-11 bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20 focus:border-[#7fff00]/50 focus:ring-[#7fff00]/20"
+                  className="h-11 bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20 focus:border-[#dc2626]/50 focus:ring-[#dc2626]/20"
                   required
                 />
               </div>
@@ -91,7 +91,7 @@ export default function Login() {
               </Button>
             </form>
             <div className="mt-6 text-center">
-              <Link to="/" className="text-sm text-white/30 hover:text-[#7fff00] transition-colors" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+              <Link to="/" className="text-sm text-white/30 hover:text-[#dc2626] transition-colors" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
                 &larr; Back to public site
               </Link>
             </div>

@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    /* Artown-inspired palette: black + neon green + warm accents */
+    /* Artown-inspired palette: black + bold red + warm accents */
     --background: 0 0% 4%;
     --foreground: 0 0% 95%;
 
@@ -16,9 +16,9 @@
     --popover: 0 0% 8%;
     --popover-foreground: 0 0% 95%;
 
-    /* Artown neon green primary */
-    --primary: 90 100% 45%;
-    --primary-foreground: 0 0% 0%;
+    /* Bold red primary */
+    --primary: 0 85% 55%;
+    --primary-foreground: 0 0% 100%;
 
     /* Warm gold secondary */
     --secondary: 45 100% 55%;
@@ -27,33 +27,33 @@
     --muted: 0 0% 12%;
     --muted-foreground: 0 0% 55%;
 
-    /* Neon green accent */
-    --accent: 90 100% 45%;
-    --accent-foreground: 0 0% 0%;
+    /* Red accent */
+    --accent: 0 85% 55%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 15%;
     --input: 0 0% 12%;
-    --ring: 90 100% 45%;
+    --ring: 0 85% 55%;
 
     --radius: 0.5rem;
 
     /* Status colors */
     --status-available: 0 0% 10%;
-    --status-registered: 90 100% 45%;
+    --status-registered: 0 85% 55%;
     --status-picked-up: 45 100% 55%;
     --status-dropped-off: 142 71% 45%;
 
     --sidebar-background: 0 0% 4%;
     --sidebar-foreground: 0 0% 90%;
-    --sidebar-primary: 90 100% 45%;
-    --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 90 100% 45%;
-    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-primary: 0 85% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 85% 55%;
+    --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 0 0% 15%;
-    --sidebar-ring: 90 100% 45%;
+    --sidebar-ring: 0 85% 55%;
   }
 }
 
@@ -75,7 +75,7 @@
 }
 
 @layer components {
-  /* Artown-style hero: pure black with subtle colored glow */
+  /* Hero: pure black with subtle red glow */
   .hero-gradient {
     background: linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #050505 100%);
   }
@@ -90,12 +90,12 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(127, 255, 0, 0.06) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 100%, rgba(255, 50, 50, 0.03) 0%, transparent 40%);
+    background: radial-gradient(ellipse at 50% 0%, rgba(220, 38, 38, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 100%, rgba(220, 38, 38, 0.03) 0%, transparent 40%);
     pointer-events: none;
   }
 
-  /* Glass card - dark with green border hint */
+  /* Glass card - dark with subtle border */
   .glass-card {
     @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] shadow-2xl;
   }
@@ -104,22 +104,22 @@
     @apply bg-white/[0.05] backdrop-blur-md border border-white/10;
   }
 
-  /* Grid cell styles - Artown neon green */
+  /* Grid cell styles - red accent */
   .grid-cell-available {
-    @apply border border-white/10 bg-transparent hover:bg-[#7fff00]/20 hover:border-[#7fff00]/60 hover:shadow-lg hover:shadow-[#7fff00]/10 cursor-pointer transition-all duration-200;
+    @apply border border-white/10 bg-transparent hover:bg-[#dc2626]/20 hover:border-[#dc2626]/60 hover:shadow-lg hover:shadow-[#dc2626]/10 cursor-pointer transition-all duration-200;
   }
 
   .grid-cell-taken {
-    @apply bg-[#7fff00]/25 border border-[#7fff00]/40 cursor-not-allowed;
+    @apply bg-[#dc2626]/25 border border-[#dc2626]/40 cursor-not-allowed;
   }
 
   .grid-cell-selected {
-    @apply bg-[#7fff00]/60 border-2 border-[#7fff00] text-black ring-2 ring-[#7fff00]/50 ring-offset-1 ring-offset-transparent z-10 scale-110 shadow-xl shadow-[#7fff00]/30;
+    @apply bg-[#dc2626]/60 border-2 border-[#dc2626] text-white ring-2 ring-[#dc2626]/50 ring-offset-1 ring-offset-transparent z-10 scale-110 shadow-xl shadow-[#dc2626]/30;
   }
 
   /* Shimmer animation */
   .shimmer {
-    background: linear-gradient(90deg, transparent 0%, rgba(127, 255, 0, 0.04) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(220, 38, 38, 0.04) 50%, transparent 100%);
     background-size: 200% 100%;
     animation: shimmer 3s infinite;
   }
@@ -129,7 +129,7 @@
     100% { background-position: 200% 0; }
   }
 
-  /* Neon green underline accent */
+  /* Red underline accent */
   .neon-underline {
     position: relative;
     display: inline-block;
@@ -141,9 +141,9 @@
     left: 0;
     width: 100%;
     height: 3px;
-    background: #7fff00;
+    background: #dc2626;
     border-radius: 2px;
-    box-shadow: 0 0 8px rgba(127, 255, 0, 0.5);
+    box-shadow: 0 0 8px rgba(220, 38, 38, 0.5);
   }
 
   /* Stat card glow */
@@ -157,7 +157,7 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(127, 255, 0, 0.5), transparent);
+    background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.5), transparent);
   }
 
   /* Section divider */
@@ -166,23 +166,23 @@
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
   }
 
-  /* Partner logo container */
+  /* Partner logo container - no rounded edges */
   .partner-logo {
-    @apply h-10 w-auto opacity-80 hover:opacity-100 transition-opacity duration-300;
+    @apply h-10 w-auto opacity-90 hover:opacity-100 transition-opacity duration-300;
   }
 
-  /* Neon button style */
+  /* Bold red button style */
   .btn-neon {
     @apply font-bold uppercase tracking-wider;
-    background: #7fff00;
-    color: #000;
+    background: #dc2626;
+    color: #fff;
     text-shadow: none;
-    box-shadow: 0 0 15px rgba(127, 255, 0, 0.3), inset 0 0 15px rgba(127, 255, 0, 0.1);
+    box-shadow: 0 0 15px rgba(220, 38, 38, 0.3), inset 0 0 15px rgba(220, 38, 38, 0.1);
     transition: all 0.2s ease;
   }
   .btn-neon:hover {
-    background: #8fff20;
-    box-shadow: 0 0 25px rgba(127, 255, 0, 0.5), inset 0 0 20px rgba(127, 255, 0, 0.15);
+    background: #ef4444;
+    box-shadow: 0 0 25px rgba(220, 38, 38, 0.5), inset 0 0 20px rgba(220, 38, 38, 0.15);
   }
 
   /* Artown-style colorful dash line */
@@ -190,11 +190,11 @@
     height: 4px;
     background: repeating-linear-gradient(
       90deg,
-      #7fff00 0px, #7fff00 12px,
-      #ff4444 14px, #ff4444 26px,
-      #ffcc00 28px, #ffcc00 40px,
-      #00ccff 42px, #00ccff 54px,
-      #ff66cc 56px, #ff66cc 68px,
+      #dc2626 0px, #dc2626 12px,
+      #ffcc00 14px, #ffcc00 26px,
+      #00ccff 28px, #00ccff 40px,
+      #ff66cc 42px, #ff66cc 54px,
+      #7fff00 56px, #7fff00 68px,
       transparent 70px, transparent 72px
     );
   }
@@ -202,6 +202,12 @@
   /* CTA banner */
   .cta-banner {
     background: linear-gradient(135deg, #1a0000 0%, #2a0505 50%, #1a0000 100%);
-    border: 1px solid rgba(255, 50, 50, 0.2);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+  }
+
+  /* White nav bar */
+  .nav-white {
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   }
 }

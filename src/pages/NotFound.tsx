@@ -12,7 +12,7 @@ const NotFound = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-black">
       <div className="text-center space-y-4">
-        <Plane className="h-12 w-12 text-[#7fff00] mx-auto opacity-60" />
+        <Plane className="h-12 w-12 text-[#dc2626] mx-auto opacity-60" />
         <h1 className="text-7xl font-black text-white">404</h1>
         <p className="text-lg text-white/40" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>Page not found</p>
         <a

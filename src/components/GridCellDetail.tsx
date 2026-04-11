@@ -79,7 +79,7 @@ export function GridCellDetail({ gridCell, assignment, onClose }: Props) {
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="max-w-md bg-[#0a0a0a] border-white/[0.08] text-white">
         <DialogHeader>
-          <DialogTitle className="text-xl text-white">Grid Cell <span className="text-[#7fff00]">{gridCell}</span></DialogTitle>
+          <DialogTitle className="text-xl text-white">Grid Cell <span className="text-[#dc2626]">{gridCell}</span></DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -128,7 +128,7 @@ export function GridCellDetail({ gridCell, assignment, onClose }: Props) {
 
           {/* Quick add new artist */}
           {!showNewArtist ? (
-            <Button variant="outline" size="sm" onClick={() => setShowNewArtist(true)} className="border-white/[0.08] text-white/50 hover:bg-white/[0.03] hover:text-[#7fff00] hover:border-[#7fff00]/30">
+            <Button variant="outline" size="sm" onClick={() => setShowNewArtist(true)} className="border-white/[0.08] text-white/50 hover:bg-white/[0.03] hover:text-[#dc2626] hover:border-[#dc2626]/30">
               + Add New Artist
             </Button>
           ) : (

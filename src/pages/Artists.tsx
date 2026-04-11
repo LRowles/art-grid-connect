@@ -164,16 +164,16 @@ export default function Artists() {
             placeholder="Search artists, grid cells..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="pl-9 bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20 focus:border-[#7fff00]/50"
+            className="pl-9 bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20 focus:border-[#dc2626]/50"
           />
         </div>
         <Button onClick={() => { setForm(defaultForm); setEditId(null); setShowAdd(true); }} className="btn-neon rounded">
           <Plus className="h-4 w-4 mr-1" /> Add Artist
         </Button>
-        <Button variant="outline" onClick={() => setShowImport(true)} className="border-white/[0.08] text-white/50 hover:bg-white/[0.03] hover:text-[#7fff00] hover:border-[#7fff00]/30">
+        <Button variant="outline" onClick={() => setShowImport(true)} className="border-white/[0.08] text-white/50 hover:bg-white/[0.03] hover:text-[#dc2626] hover:border-[#dc2626]/30">
           <Upload className="h-4 w-4 mr-1" /> Import CSV
         </Button>
-        <Button variant="outline" onClick={handleExport} className="border-white/[0.08] text-white/50 hover:bg-white/[0.03] hover:text-[#7fff00] hover:border-[#7fff00]/30">
+        <Button variant="outline" onClick={handleExport} className="border-white/[0.08] text-white/50 hover:bg-white/[0.03] hover:text-[#dc2626] hover:border-[#dc2626]/30">
           <Download className="h-4 w-4 mr-1" /> Export
         </Button>
       </div>
@@ -203,7 +203,7 @@ export default function Artists() {
                     <TableCell className="text-white/50" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>{a.phone || '—'}</TableCell>
                     <TableCell>
                       {grid?.grid_cell ? (
-                        <span className="px-2 py-0.5 rounded bg-[#7fff00]/15 text-[#7fff00] text-xs font-bold border border-[#7fff00]/25">
+                        <span className="px-2 py-0.5 rounded bg-[#dc2626]/15 text-[#dc2626] text-xs font-bold border border-[#dc2626]/25">
                           {grid.grid_cell}
                         </span>
                       ) : (
@@ -213,7 +213,7 @@ export default function Artists() {
                     <TableCell className="capitalize text-white/40" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>{grid?.status?.replace('_', ' ') || '—'}</TableCell>
                     <TableCell>
                       <div className="flex gap-1">
-                        <Button variant="ghost" size="icon" onClick={() => { const g = artistGridMap.get(a.id); setForm({ name: a.name, email: a.email || '', phone: a.phone || '', gridCell: g?.grid_cell || '', status: g?.status || '' }); setEditId(a.id); setShowAdd(true); }} className="text-white/30 hover:text-[#7fff00] hover:bg-white/[0.03]">
+                        <Button variant="ghost" size="icon" onClick={() => { const g = artistGridMap.get(a.id); setForm({ name: a.name, email: a.email || '', phone: a.phone || '', gridCell: g?.grid_cell || '', status: g?.status || '' }); setEditId(a.id); setShowAdd(true); }} className="text-white/30 hover:text-[#dc2626] hover:bg-white/[0.03]">
                           <Pencil className="h-4 w-4" />
                         </Button>
                         <Button variant="ghost" size="icon" onClick={() => handleDelete(a.id, a.name)} className="text-white/30 hover:text-red-400 hover:bg-red-500/10">

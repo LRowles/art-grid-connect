@@ -5,7 +5,7 @@ export function PublicNav() {
   const location = useLocation();
 
   return (
-    <nav className="sticky top-0 z-50 bg-black/95 backdrop-blur-xl border-b border-white/5">
+    <nav className="sticky top-0 z-50 nav-white">
       {/* Artown-style colorful dash line at the very top */}
       <div className="artown-dash w-full" />
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
@@ -13,13 +13,13 @@ export function PublicNav() {
           <img
             src={artownLogo}
             alt="Artown"
-            className="h-10 w-auto rounded-md group-hover:brightness-110 transition-all"
+            className="h-10 w-auto group-hover:brightness-110 transition-all"
           />
           <div className="hidden sm:block">
-            <span className="text-lg font-bold text-white tracking-tight font-['Oswald'] uppercase">
+            <span className="text-lg font-bold text-gray-900 tracking-tight font-['Oswald'] uppercase">
               Art of Aviation
             </span>
-            <span className="block text-[10px] uppercase tracking-[0.25em] text-[#7fff00] font-bold -mt-0.5">
+            <span className="block text-[10px] uppercase tracking-[0.25em] text-[#dc2626] font-bold -mt-0.5">
               Community Mural
             </span>
           </div>
@@ -29,8 +29,8 @@ export function PublicNav() {
             to="/"
             className={`px-4 py-2 rounded text-sm font-bold uppercase tracking-wider transition-all duration-200 ${
               location.pathname === '/' || location.pathname === '/register'
-                ? 'bg-[#7fff00] text-black shadow-md shadow-[#7fff00]/25'
-                : 'text-white/60 hover:text-[#7fff00] hover:bg-white/5'
+                ? 'bg-[#dc2626] text-white shadow-md shadow-[#dc2626]/25'
+                : 'text-gray-500 hover:text-[#dc2626] hover:bg-gray-100'
             }`}
           >
             Register
@@ -39,15 +39,15 @@ export function PublicNav() {
             to="/about"
             className={`px-4 py-2 rounded text-sm font-bold uppercase tracking-wider transition-all duration-200 ${
               location.pathname === '/about'
-                ? 'bg-[#7fff00] text-black shadow-md shadow-[#7fff00]/25'
-                : 'text-white/60 hover:text-[#7fff00] hover:bg-white/5'
+                ? 'bg-[#dc2626] text-white shadow-md shadow-[#dc2626]/25'
+                : 'text-gray-500 hover:text-[#dc2626] hover:bg-gray-100'
             }`}
           >
             About
           </Link>
           <Link
             to="/admin"
-            className="ml-2 px-3 py-2 rounded text-xs font-medium text-white/20 hover:text-white/50 hover:bg-white/5 transition-all duration-200"
+            className="ml-2 px-3 py-2 rounded text-xs font-medium text-gray-300 hover:text-gray-500 hover:bg-gray-100 transition-all duration-200"
           >
             Admin
           </Link>

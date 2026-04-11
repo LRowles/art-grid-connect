@@ -20,7 +20,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-4">
             <Link to="/admin" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded bg-[#7fff00]/15 text-[#7fff00] flex items-center justify-center border border-[#7fff00]/25">
+              <div className="w-8 h-8 rounded bg-[#dc2626]/15 text-[#dc2626] flex items-center justify-center border border-[#dc2626]/25">
                 <Plane className="h-4 w-4" />
               </div>
               <span className="text-lg font-bold text-white hidden sm:inline" style={{ fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase' }}>Mural Admin</span>
@@ -34,8 +34,8 @@ export function AppLayout({ children }: { children: ReactNode }) {
                     to={item.to}
                     className={`flex items-center gap-2 px-3 py-2 rounded text-sm font-bold uppercase tracking-wider transition-all duration-200 ${
                       isActive
-                        ? 'bg-[#7fff00] text-black shadow-md shadow-[#7fff00]/25'
-                        : 'text-white/40 hover:text-[#7fff00] hover:bg-white/[0.03]'
+                        ? 'bg-[#dc2626] text-black shadow-md shadow-[#dc2626]/25'
+                        : 'text-white/40 hover:text-[#dc2626] hover:bg-white/[0.03]'
                     }`}
                   >
                     <item.icon className="h-4 w-4" />
@@ -48,7 +48,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
           <div className="flex items-center gap-2">
             <Link
               to="/"
-              className="flex items-center gap-1 text-xs text-white/25 hover:text-[#7fff00] transition-colors mr-2"
+              className="flex items-center gap-1 text-xs text-white/25 hover:text-[#dc2626] transition-colors mr-2"
               style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}
             >
               <ExternalLink className="h-3 w-3" />
