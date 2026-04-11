@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Email API server (development only)
+email-api/
+
+# Supabase temp files
+supabase/.temp/
