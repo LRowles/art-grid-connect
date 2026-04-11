@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,93 +6,54 @@
 
 @layer base {
   :root {
-    /* Deep aviation-inspired palette */
-    --background: 220 25% 97%;
-    --foreground: 220 30% 12%;
+    /* Dark cinematic aviation palette */
+    --background: 222 47% 8%;
+    --foreground: 210 20% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 30% 12%;
+    --card: 222 40% 12%;
+    --card-foreground: 210 20% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 30% 12%;
+    --popover: 222 40% 12%;
+    --popover-foreground: 210 20% 95%;
 
     /* Rich navy-blue primary */
-    --primary: 220 65% 28%;
+    --primary: 217 80% 52%;
     --primary-foreground: 0 0% 100%;
 
     /* Warm sunset gold */
     --secondary: 38 92% 55%;
-    --secondary-foreground: 30 60% 15%;
+    --secondary-foreground: 30 60% 10%;
 
-    --muted: 220 15% 92%;
-    --muted-foreground: 220 10% 45%;
+    --muted: 222 30% 16%;
+    --muted-foreground: 215 15% 60%;
 
     /* Aviation amber accent */
-    --accent: 25 95% 55%;
+    --accent: 38 92% 55%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 88%;
-    --input: 220 15% 85%;
-    --ring: 220 65% 28%;
+    --border: 222 25% 20%;
+    --input: 222 25% 18%;
+    --ring: 217 80% 52%;
 
     --radius: 0.75rem;
 
     /* Status colors */
-    --status-available: 220 15% 90%;
+    --status-available: 222 30% 18%;
     --status-registered: 217 91% 60%;
     --status-picked-up: 38 93% 52%;
     --status-dropped-off: 142 71% 45%;
 
-    --sidebar-background: 220 25% 97%;
-    --sidebar-foreground: 220 30% 15%;
-    --sidebar-primary: 220 65% 28%;
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 217 80% 52%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 38 92% 92%;
-    --sidebar-accent-foreground: 220 30% 12%;
-    --sidebar-border: 220 15% 88%;
-    --sidebar-ring: 220 65% 28%;
-  }
-
-  .dark {
-    --background: 220 25% 6%;
-    --foreground: 220 10% 95%;
-
-    --card: 220 25% 10%;
-    --card-foreground: 220 10% 95%;
-
-    --popover: 220 25% 10%;
-    --popover-foreground: 220 10% 95%;
-
-    --primary: 220 65% 45%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 38 70% 40%;
-    --secondary-foreground: 38 90% 95%;
-
-    --muted: 220 20% 15%;
-    --muted-foreground: 220 10% 60%;
-
-    --accent: 25 80% 50%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 0 0% 95%;
-
-    --border: 220 20% 18%;
-    --input: 220 20% 18%;
-    --ring: 220 65% 45%;
-
-    --sidebar-background: 220 25% 8%;
-    --sidebar-foreground: 220 10% 90%;
-    --sidebar-primary: 220 65% 45%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 20% 15%;
-    --sidebar-accent-foreground: 220 10% 90%;
-    --sidebar-border: 220 20% 15%;
-    --sidebar-ring: 220 65% 45%;
+    --sidebar-accent: 38 92% 55%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 222 25% 18%;
+    --sidebar-ring: 217 80% 52%;
   }
 }
 
@@ -112,34 +73,99 @@
 }
 
 @layer components {
+  /* Cinematic hero gradient - deep navy to midnight with warm accent */
   .hero-gradient {
-    background: linear-gradient(135deg, hsl(220 65% 15%) 0%, hsl(220 50% 25%) 40%, hsl(25 60% 35%) 100%);
+    background: linear-gradient(135deg, hsl(222 55% 6%) 0%, hsl(220 50% 14%) 35%, hsl(222 40% 18%) 60%, hsl(25 40% 18%) 100%);
   }
 
+  /* Subtle warm glow overlay */
+  .hero-glow {
+    position: relative;
+  }
+  .hero-glow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at 70% 20%, hsla(38, 92%, 55%, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, hsla(217, 80%, 52%, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* Glass card with dark theme */
   .glass-card {
-    @apply bg-white/80 backdrop-blur-md border border-white/30 shadow-lg;
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl;
   }
 
+  .glass-card-light {
+    @apply bg-white/8 backdrop-blur-md border border-white/15;
+  }
+
+  /* Grid cell styles */
   .grid-cell-available {
-    @apply border border-white/20 bg-white/10 hover:bg-white/30 hover:border-secondary hover:shadow-lg hover:shadow-secondary/20 cursor-pointer transition-all duration-200;
+    @apply border border-white/15 bg-transparent hover:bg-white/20 hover:border-amber-400/60 hover:shadow-lg hover:shadow-amber-400/10 cursor-pointer transition-all duration-200;
   }
 
   .grid-cell-taken {
-    @apply bg-primary/50 border border-primary/60 cursor-not-allowed;
+    @apply bg-blue-500/40 border border-blue-400/50 cursor-not-allowed;
   }
 
   .grid-cell-selected {
-    @apply bg-secondary/80 border-2 border-secondary text-white ring-2 ring-secondary ring-offset-1 ring-offset-transparent z-10 scale-110 shadow-xl shadow-secondary/30;
+    @apply bg-amber-500/70 border-2 border-amber-400 text-white ring-2 ring-amber-400/50 ring-offset-1 ring-offset-transparent z-10 scale-110 shadow-xl shadow-amber-500/30;
   }
 
+  /* Shimmer animation */
   .shimmer {
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
     background-size: 200% 100%;
-    animation: shimmer 2s infinite;
+    animation: shimmer 3s infinite;
   }
 
   @keyframes shimmer {
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
+  }
+
+  /* Gold underline accent */
+  .gold-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .gold-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, hsl(38 92% 55%), transparent);
+    border-radius: 2px;
+  }
+
+  /* Stat card glow */
+  .stat-glow {
+    @apply relative overflow-hidden;
+  }
+  .stat-glow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsla(38, 92%, 55%, 0.5), transparent);
+  }
+
+  /* Section divider */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(222 25% 25%), transparent);
+  }
+
+  /* Partner logo container */
+  .partner-logo {
+    @apply h-10 w-auto opacity-80 hover:opacity-100 transition-opacity duration-300;
   }
 }

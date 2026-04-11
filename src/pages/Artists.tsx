@@ -163,37 +163,37 @@ export default function Artists() {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
           <Input
             placeholder="Search artists, grid cells..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="pl-9"
+            className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-amber-500/50"
           />
         </div>
-        <Button onClick={() => { setForm(defaultForm); setEditId(null); setShowAdd(true); }}>
+        <Button onClick={() => { setForm(defaultForm); setEditId(null); setShowAdd(true); }} className="bg-amber-500 hover:bg-amber-600 text-white">
           <Plus className="h-4 w-4 mr-1" /> Add Artist
         </Button>
-        <Button variant="outline" onClick={() => setShowImport(true)}>
+        <Button variant="outline" onClick={() => setShowImport(true)} className="border-white/10 text-white/60 hover:bg-white/5 hover:text-white">
           <Upload className="h-4 w-4 mr-1" /> Import CSV
         </Button>
-        <Button variant="outline" onClick={handleExport}>
+        <Button variant="outline" onClick={handleExport} className="border-white/10 text-white/60 hover:bg-white/5 hover:text-white">
           <Download className="h-4 w-4 mr-1" /> Export
         </Button>
       </div>
 
       {isLoading ? (
-        <div className="text-muted-foreground text-center py-8">Loading...</div>
+        <div className="text-white/40 text-center py-8">Loading...</div>
       ) : (
-        <div className="rounded-lg border bg-card overflow-auto">
+        <div className="rounded-lg border border-white/10 bg-white/3 overflow-auto">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead>Grid</TableHead>
-                <TableHead>Status</TableHead>
+              <TableRow className="border-white/10 hover:bg-transparent">
+                <TableHead className="text-white/50">Name</TableHead>
+                <TableHead className="text-white/50">Email</TableHead>
+                <TableHead className="text-white/50">Phone</TableHead>
+                <TableHead className="text-white/50">Grid</TableHead>
+                <TableHead className="text-white/50">Status</TableHead>
                 <TableHead className="w-[80px]"></TableHead>
               </TableRow>
             </TableHeader>
@@ -201,19 +201,27 @@ export default function Artists() {
               {filtered?.map(a => {
                 const grid = artistGridMap.get(a.id);
                 return (
-                  <TableRow key={a.id}>
-                    <TableCell className="font-medium">{a.name}</TableCell>
-                    <TableCell>{a.email || '—'}</TableCell>
-                    <TableCell>{a.phone || '—'}</TableCell>
-                    <TableCell>{grid?.grid_cell || '—'}</TableCell>
-                    <TableCell className="capitalize">{grid?.status?.replace('_', ' ') || '—'}</TableCell>
+                  <TableRow key={a.id} className="border-white/5 hover:bg-white/5">
+                    <TableCell className="font-medium text-white">{a.name}</TableCell>
+                    <TableCell className="text-white/60">{a.email || '—'}</TableCell>
+                    <TableCell className="text-white/60">{a.phone || '—'}</TableCell>
+                    <TableCell>
+                      {grid?.grid_cell ? (
+                        <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/30">
+                          {grid.grid_cell}
+                        </span>
+                      ) : (
+                        <span className="text-white/30">—</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="capitalize text-white/50">{grid?.status?.replace('_', ' ') || '—'}</TableCell>
                     <TableCell>
                       <div className="flex gap-1">
-                        <Button variant="ghost" size="icon" onClick={() => { const g = artistGridMap.get(a.id); setForm({ name: a.name, email: a.email || '', phone: a.phone || '', gridCell: g?.grid_cell || '', status: g?.status || '' }); setEditId(a.id); setShowAdd(true); }}>
+                        <Button variant="ghost" size="icon" onClick={() => { const g = artistGridMap.get(a.id); setForm({ name: a.name, email: a.email || '', phone: a.phone || '', gridCell: g?.grid_cell || '', status: g?.status || '' }); setEditId(a.id); setShowAdd(true); }} className="text-white/40 hover:text-white hover:bg-white/5">
                           <Pencil className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" onClick={() => handleDelete(a.id, a.name)}>
-                          <Trash2 className="h-4 w-4 text-destructive" />
+                        <Button variant="ghost" size="icon" onClick={() => handleDelete(a.id, a.name)} className="text-white/40 hover:text-red-400 hover:bg-red-500/10">
+                          <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
                     </TableCell>
@@ -221,7 +229,7 @@ export default function Artists() {
                 );
               })}
               {filtered?.length === 0 && (
-                <TableRow><TableCell colSpan={6} className="text-center text-muted-foreground py-8">No artists found</TableCell></TableRow>
+                <TableRow><TableCell colSpan={6} className="text-center text-white/30 py-8">No artists found</TableCell></TableRow>
               )}
             </TableBody>
           </Table>
@@ -230,41 +238,41 @@ export default function Artists() {
 
       {/* Add/Edit Dialog */}
       <Dialog open={showAdd} onOpenChange={setShowAdd}>
-        <DialogContent>
+        <DialogContent className="bg-[hsl(222,40%,12%)] border-white/10 text-white">
           <DialogHeader>
-            <DialogTitle>{editId ? 'Edit Artist' : 'Add Artist'}</DialogTitle>
+            <DialogTitle className="text-white">{editId ? 'Edit Artist' : 'Add Artist'}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
-            <Input placeholder="Name *" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
-            <Input placeholder="Email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
-            <Input placeholder="Phone" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
+            <Input placeholder="Name *" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="bg-white/5 border-white/10 text-white placeholder:text-white/30" />
+            <Input placeholder="Email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="bg-white/5 border-white/10 text-white placeholder:text-white/30" />
+            <Input placeholder="Phone" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="bg-white/5 border-white/10 text-white placeholder:text-white/30" />
             <div>
-              <label className="text-sm font-medium mb-1 block">Grid Cell</label>
+              <label className="text-sm font-medium mb-1 block text-white/50">Grid Cell</label>
               <Select value={form.gridCell} onValueChange={v => setForm(f => ({ ...f, gridCell: v }))}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-white/5 border-white/10 text-white">
                   <SelectValue placeholder="Select grid cell" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-[hsl(222,40%,15%)] border-white/10">
                   {availableGridCells.map(cell => (
-                    <SelectItem key={cell} value={cell}>{cell}</SelectItem>
+                    <SelectItem key={cell} value={cell} className="text-white/80 focus:bg-white/10 focus:text-white">{cell}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <label className="text-sm font-medium mb-1 block">Status</label>
+              <label className="text-sm font-medium mb-1 block text-white/50">Status</label>
               <Select value={form.status} onValueChange={v => setForm(f => ({ ...f, status: v }))}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-white/5 border-white/10 text-white">
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-[hsl(222,40%,15%)] border-white/10">
                   {STATUS_OPTIONS.map(opt => (
-                    <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                    <SelectItem key={opt.value} value={opt.value} className="text-white/80 focus:bg-white/10 focus:text-white">{opt.label}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
-            <Button onClick={handleSave} disabled={!form.name.trim()} className="w-full">
+            <Button onClick={handleSave} disabled={!form.name.trim()} className="w-full bg-amber-500 hover:bg-amber-600 text-white">
               {editId ? 'Update' : 'Add Artist'}
             </Button>
           </div>
@@ -273,12 +281,12 @@ export default function Artists() {
 
       {/* CSV Import Dialog */}
       <Dialog open={showImport} onOpenChange={setShowImport}>
-        <DialogContent>
+        <DialogContent className="bg-[hsl(222,40%,12%)] border-white/10 text-white">
           <DialogHeader>
-            <DialogTitle>Import Artists from CSV</DialogTitle>
+            <DialogTitle className="text-white">Import Artists from CSV</DialogTitle>
           </DialogHeader>
-          <p className="text-sm text-muted-foreground">CSV format: Name, Email, Phone (one per line)</p>
-          <Input type="file" accept=".csv" onChange={handleCSVImport} />
+          <p className="text-sm text-white/50">CSV format: Name, Email, Phone (one per line)</p>
+          <Input type="file" accept=".csv" onChange={handleCSVImport} className="bg-white/5 border-white/10 text-white" />
         </DialogContent>
       </Dialog>
     </div>

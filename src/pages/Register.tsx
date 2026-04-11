@@ -5,11 +5,13 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { toast } from '@/hooks/use-toast';
-import { CheckCircle2, Plane, Palette, MapPin, Calendar, ArrowRight, X, Mail, Phone, User } from 'lucide-react';
+import { CheckCircle2, Plane, Palette, MapPin, Calendar, ArrowRight, X, Mail, Phone, User, Star } from 'lucide-react';
 import { PublicNav } from '@/components/PublicNav';
 import { sendConfirmationEmail } from '@/lib/sendConfirmationEmail';
+import artownLogo from '@/assets/artown-logo.jpg';
+import socLogo from '@/assets/soc-logo.png';
 
 const COLS = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R'];
 const ROWS = Array.from({ length: 13 }, (_, i) => i + 1);
@@ -38,10 +40,6 @@ const COL_FR = COL_WIDTHS.map(w => `${w}fr`).join(' ');
 const ROW_HEIGHTS = H_LINES.slice(0, -1).map((h, i) => H_LINES[i + 1] - h);
 const GRID_TOTAL_H = H_LINES[H_LINES.length - 1] - H_LINES[0];
 const ROW_FR = ROW_HEIGHTS.map(h => `${h}fr`).join(' ');
-
-// For canvas cropping
-const CELL_W = GRID_TOTAL_W / COLS.length;
-const CELL_H = GRID_TOTAL_H / ROWS.length;
 
 type GridAssignment = {
   grid_cell: string;
@@ -74,7 +72,6 @@ function cropCellFromMural(cellId: string): Promise<string> {
     img.crossOrigin = 'anonymous';
     img.onload = () => {
       const canvas = document.createElement('canvas');
-      // Use exact grid line positions for precise cropping
       const sx = V_LINES[colIdx];
       const sy = H_LINES[rowIdx];
       const sw = V_LINES[colIdx + 1] - V_LINES[colIdx];
@@ -179,8 +176,8 @@ export default function Register() {
         <PublicNav />
         <div className="flex items-center justify-center h-[60vh]">
           <div className="text-center space-y-4">
-            <Plane className="h-10 w-10 text-primary animate-pulse mx-auto" />
-            <p className="text-muted-foreground font-medium">Loading mural grid...</p>
+            <Plane className="h-10 w-10 text-amber-400 animate-pulse mx-auto" />
+            <p className="text-white/60 font-medium">Loading mural grid...</p>
           </div>
         </div>
       </div>
@@ -193,39 +190,43 @@ export default function Register() {
       <div className="min-h-screen bg-background">
         <PublicNav />
         <div className="flex items-center justify-center p-8 min-h-[70vh]">
-          <Card className="max-w-lg w-full text-center shadow-2xl border-0 overflow-hidden">
-            <div className="hero-gradient p-6">
-              <CheckCircle2 className="h-16 w-16 text-white mx-auto mb-3" />
+          <Card className="max-w-lg w-full text-center shadow-2xl border-0 overflow-hidden bg-[hsl(222,40%,12%)] border border-white/10">
+            <div className="hero-gradient p-8">
+              <CheckCircle2 className="h-16 w-16 text-amber-400 mx-auto mb-3" />
               <h2 className="text-3xl font-bold text-white">You're Registered!</h2>
             </div>
             <CardContent className="pt-8 pb-8 space-y-5">
               {cellPreview && (
-                <div className="mx-auto w-40 h-40 rounded-xl overflow-hidden shadow-lg border-4 border-secondary/30">
+                <div className="mx-auto w-40 h-40 rounded-xl overflow-hidden shadow-lg border-2 border-amber-500/30">
                   <img src={cellPreview} alt={`Square ${success}`} className="w-full h-full object-cover" />
                 </div>
               )}
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-white/70 leading-relaxed">
                 You've been assigned grid square{' '}
-                <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary text-primary-foreground font-bold text-sm">
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-amber-500 text-white font-bold text-sm">
                   {success}
                 </span>
               </p>
-              <p className="text-muted-foreground text-sm leading-relaxed">
+              <p className="text-white/50 text-sm leading-relaxed">
                 Thank you for participating in the Art of Aviation Community Mural!
               </p>
-              <div className="bg-muted/50 rounded-xl p-4 text-sm text-muted-foreground space-y-2">
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-accent shrink-0" />
-                  <span>Pick up your canvas at <strong className="text-foreground">The Discovery Museum</strong></span>
+              <div className="bg-white/5 border border-white/10 rounded-xl p-5 text-sm text-white/70 space-y-3">
+                <div className="flex items-center gap-3">
+                  <MapPin className="h-4 w-4 text-amber-400 shrink-0" />
+                  <span>Pick up your canvas at <strong className="text-white">The Discovery Museum</strong></span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-accent shrink-0" />
-                  <span>Available after <strong className="text-foreground">May 1</strong> — due <strong className="text-foreground">June 22</strong></span>
+                <div className="flex items-center gap-3">
+                  <Calendar className="h-4 w-4 text-amber-400 shrink-0" />
+                  <span>Available after <strong className="text-white">May 1</strong> — due <strong className="text-white">June 22</strong></span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Star className="h-4 w-4 text-amber-400 shrink-0" />
+                  <span>Join us for the unveiling at <strong className="text-white">The Discovery</strong> on <strong className="text-white">July 2nd</strong></span>
                 </div>
               </div>
               {email.trim() && (
-                <p className="text-xs text-muted-foreground/70">
-                  A confirmation email with your square artwork has been sent to <strong>{email.trim()}</strong>.
+                <p className="text-xs text-white/40">
+                  A confirmation email with your square artwork has been sent to <strong className="text-white/60">{email.trim()}</strong>.
                 </p>
               )}
             </CardContent>
@@ -241,76 +242,73 @@ export default function Register() {
       <PublicNav />
 
       {/* Hero */}
-      <section className="hero-gradient text-white">
-        <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16 text-center space-y-5">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm text-sm font-medium border border-white/20">
+      <section className="hero-gradient hero-glow text-white relative overflow-hidden">
+        <div className="max-w-5xl mx-auto px-4 py-14 sm:py-20 text-center space-y-6 relative z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-sm text-sm font-medium border border-white/10 text-amber-400/90">
             <Plane className="h-4 w-4" />
             <span>Reno 250 Celebration</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
-            Art of Aviation<br />Community Mural
+          <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.1]">
+            Art of Aviation<br />
+            <span className="text-amber-400">Community Mural</span>
           </h1>
-          <p className="text-base sm:text-lg text-white/80 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-white/60 leading-relaxed max-w-2xl mx-auto">
             Join us in creating a collaborative mural celebrating Northern Nevada's pioneering spirit
-            and the history of flight. Select a square, create your piece, and become part of something extraordinary.
+            in aviation. Select a square, paint your masterpiece, and become part of history.
           </p>
 
           {/* Stats */}
-          <div className="flex justify-center gap-6 pt-2">
+          <div className="flex justify-center gap-8 pt-4">
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-black">{234 - takenCount}</div>
-              <div className="text-xs uppercase tracking-wider text-white/60">Available</div>
+              <div className="text-3xl sm:text-4xl font-black text-white">{234 - takenCount}</div>
+              <div className="text-[11px] uppercase tracking-[0.15em] text-white/40 mt-1">Available</div>
             </div>
-            <div className="w-px bg-white/20" />
+            <div className="w-px bg-white/10 self-stretch" />
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-black">{takenCount}</div>
-              <div className="text-xs uppercase tracking-wider text-white/60">Claimed</div>
+              <div className="text-3xl sm:text-4xl font-black text-amber-400">{takenCount}</div>
+              <div className="text-[11px] uppercase tracking-[0.15em] text-white/40 mt-1">Claimed</div>
             </div>
-            <div className="w-px bg-white/20" />
+            <div className="w-px bg-white/10 self-stretch" />
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-black">234</div>
-              <div className="text-xs uppercase tracking-wider text-white/60">Total</div>
+              <div className="text-3xl sm:text-4xl font-black text-white">234</div>
+              <div className="text-[11px] uppercase tracking-[0.15em] text-white/40 mt-1">Total</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Partner strip */}
-      <section className="border-b bg-card">
-        <div className="max-w-5xl mx-auto px-4 py-5">
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-8 items-center">
-            {[
-              { name: 'Artown', desc: 'Funding the Mural', icon: Palette },
-              { name: 'The Discovery Museum', desc: 'Hosting & Showcasing', icon: MapPin },
-              { name: 'Gillemot Foundation', desc: 'Original Artwork', icon: Plane },
-            ].map(p => (
-              <div key={p.name} className="flex items-center gap-3 text-sm">
-                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                  <p.icon className="h-4 w-4 text-primary" />
-                </div>
-                <div>
-                  <div className="font-semibold text-foreground leading-tight">{p.name}</div>
-                  <div className="text-xs text-muted-foreground">{p.desc}</div>
-                </div>
-              </div>
-            ))}
+      <section className="border-b border-white/5 bg-[hsl(222,40%,10%)]">
+        <div className="max-w-5xl mx-auto px-4 py-6">
+          <p className="text-center text-[10px] uppercase tracking-[0.2em] text-white/30 mb-4 font-medium">Presented By</p>
+          <div className="flex flex-wrap justify-center gap-6 sm:gap-10 items-center">
+            <img src={artownLogo} alt="Artown" className="h-10 w-auto rounded-md opacity-90 hover:opacity-100 transition-opacity" />
+            <div className="flex items-center gap-2 text-white/70 hover:text-white/90 transition-colors">
+              <MapPin className="h-5 w-5 text-amber-400/70" />
+              <span className="text-sm font-semibold">The Discovery Museum</span>
+            </div>
+            <div className="flex items-center gap-2 text-white/70 hover:text-white/90 transition-colors">
+              <Plane className="h-5 w-5 text-blue-400/70" />
+              <span className="text-sm font-semibold">Gillemot Foundation</span>
+            </div>
+            <img src={socLogo} alt="Strengthen our Community" className="h-8 w-auto rounded-md opacity-90 hover:opacity-100 transition-opacity bg-white/90 px-2 py-1" />
           </div>
-          <div className="text-center mt-3">
-            <Link to="/about" className="inline-flex items-center gap-1 text-sm text-primary hover:underline font-medium">
+          <div className="text-center mt-4">
+            <Link to="/about" className="inline-flex items-center gap-1 text-sm text-amber-400/80 hover:text-amber-400 font-medium transition-colors">
               Learn more about the project & partners <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Directions */}
-      <section className="max-w-5xl mx-auto px-4 py-6">
-        <div className="bg-primary/5 border border-primary/15 rounded-xl p-5">
-          <h3 className="font-bold text-foreground mb-3 flex items-center gap-2 text-base">
-            <span className="w-7 h-7 rounded-lg bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold">?</span>
+      {/* How It Works */}
+      <section className="max-w-5xl mx-auto px-4 py-8">
+        <div className="glass-card rounded-2xl p-6">
+          <h3 className="font-bold text-white mb-4 flex items-center gap-3 text-lg">
+            <span className="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center text-sm font-bold">?</span>
             How It Works
           </h3>
-          <div className="grid sm:grid-cols-2 gap-3">
+          <div className="grid sm:grid-cols-2 gap-4">
             {[
               { step: '1', text: 'Select an available square below and register with your name and contact info.' },
               { step: '2', text: 'Pick up your canvas at The Discovery Museum after May 1.' },
@@ -318,10 +316,10 @@ export default function Register() {
               { step: '4', text: 'Return your completed square by Monday, June 22nd.' },
             ].map(d => (
               <div key={d.step} className="flex items-start gap-3">
-                <span className="w-6 h-6 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                <span className="w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 border border-amber-500/30">
                   {d.step}
                 </span>
-                <p className="text-sm text-muted-foreground leading-relaxed">{d.text}</p>
+                <p className="text-sm text-white/60 leading-relaxed">{d.text}</p>
               </div>
             ))}
           </div>
@@ -329,24 +327,24 @@ export default function Register() {
       </section>
 
       {/* Grid section */}
-      <section className="max-w-6xl mx-auto px-4 pb-8 space-y-4">
+      <section className="max-w-6xl mx-auto px-4 pb-10 space-y-5">
         {/* Legend */}
         <div className="flex items-center justify-between">
-          <h2 className="text-xl sm:text-2xl font-bold text-foreground">Select Your Square</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-white">Select Your Square</h2>
           <div className="flex gap-4 text-xs">
             <div className="flex items-center gap-1.5">
-              <div className="w-4 h-4 rounded border-2 border-dashed border-primary/30 bg-primary/5" />
-              <span className="text-muted-foreground font-medium">Available</span>
+              <div className="w-4 h-4 rounded border border-dashed border-white/30 bg-white/5" />
+              <span className="text-white/50 font-medium">Available</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-4 h-4 rounded bg-primary/60 border border-primary/70" />
-              <span className="text-muted-foreground font-medium">Taken</span>
+              <div className="w-4 h-4 rounded bg-blue-500/50 border border-blue-400/60" />
+              <span className="text-white/50 font-medium">Taken</span>
             </div>
           </div>
         </div>
 
         {/* Grid overlay on mural */}
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-black/10">
+        <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
           <img src="/mural-grid.png" alt="Community Mural Grid" className="w-full block" />
           <div
             className="absolute grid"
@@ -377,7 +375,7 @@ export default function Register() {
                         ? 'grid-cell-taken text-white/70'
                         : isSelected
                           ? 'grid-cell-selected'
-                          : 'grid-cell-available text-white/50 hover:text-white'
+                          : 'grid-cell-available text-white/40 hover:text-white'
                       }
                     `}
                     title={taken ? `${cellId} — Taken` : `${cellId} — Available`}
@@ -393,43 +391,43 @@ export default function Register() {
         {/* Registration form */}
         {selectedCell && (
           <div ref={formRef} className="flex justify-center pt-4 pb-8">
-            <Card className="max-w-md w-full shadow-2xl border-0 overflow-hidden">
+            <Card className="max-w-md w-full shadow-2xl border-0 overflow-hidden bg-[hsl(222,40%,12%)] border border-white/10">
               <div className="hero-gradient p-5 flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   {cellPreview && (
-                    <div className="w-16 h-16 rounded-lg overflow-hidden border-2 border-white/30 shadow-lg shrink-0">
+                    <div className="w-16 h-16 rounded-lg overflow-hidden border-2 border-amber-500/30 shadow-lg shrink-0">
                       <img src={cellPreview} alt={`Square ${selectedCell}`} className="w-full h-full object-cover" />
                     </div>
                   )}
                   <div>
                     <CardTitle className="text-white text-lg">Register for Square {selectedCell}</CardTitle>
-                    <p className="text-white/60 text-xs mt-0.5">Fill in your details to claim this square</p>
+                    <p className="text-white/40 text-xs mt-0.5">Fill in your details to claim this square</p>
                   </div>
                 </div>
                 <button
                   onClick={() => { setSelectedCell(null); setCellPreview(null); }}
-                  className="text-white/50 hover:text-white transition-colors"
+                  className="text-white/30 hover:text-white transition-colors"
                 >
                   <X className="h-5 w-5" />
                 </button>
               </div>
               <CardContent className="p-6 space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-sm font-semibold flex items-center gap-2">
-                    <User className="h-3.5 w-3.5 text-muted-foreground" /> Name <span className="text-destructive">*</span>
+                  <Label htmlFor="name" className="text-sm font-semibold flex items-center gap-2 text-white/80">
+                    <User className="h-3.5 w-3.5 text-white/40" /> Name <span className="text-amber-400">*</span>
                   </Label>
                   <Input
                     id="name"
                     value={name}
                     onChange={e => setName(e.target.value)}
                     placeholder="Your full name"
-                    className="h-11"
+                    className="h-11 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-amber-500/50 focus:ring-amber-500/20"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-semibold flex items-center gap-2">
-                    <Mail className="h-3.5 w-3.5 text-muted-foreground" /> Email
-                    <span className="text-xs font-normal text-muted-foreground">(for confirmation)</span>
+                  <Label htmlFor="email" className="text-sm font-semibold flex items-center gap-2 text-white/80">
+                    <Mail className="h-3.5 w-3.5 text-white/40" /> Email
+                    <span className="text-xs font-normal text-white/40">(for confirmation)</span>
                   </Label>
                   <Input
                     id="email"
@@ -437,12 +435,12 @@ export default function Register() {
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder="your@email.com"
-                    className="h-11"
+                    className="h-11 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-amber-500/50 focus:ring-amber-500/20"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-sm font-semibold flex items-center gap-2">
-                    <Phone className="h-3.5 w-3.5 text-muted-foreground" /> Phone
+                  <Label htmlFor="phone" className="text-sm font-semibold flex items-center gap-2 text-white/80">
+                    <Phone className="h-3.5 w-3.5 text-white/40" /> Phone
                   </Label>
                   <Input
                     id="phone"
@@ -450,12 +448,12 @@ export default function Register() {
                     value={phone}
                     onChange={e => setPhone(e.target.value)}
                     placeholder="(555) 123-4567"
-                    className="h-11"
+                    className="h-11 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-amber-500/50 focus:ring-amber-500/20"
                   />
                 </div>
                 <div className="flex gap-2 pt-2">
                   <Button
-                    className="flex-1 h-11 text-base font-bold shadow-lg shadow-primary/25"
+                    className="flex-1 h-11 text-base font-bold bg-amber-500 hover:bg-amber-600 text-white shadow-lg shadow-amber-500/25"
                     disabled={!name.trim() || registerMutation.isPending}
                     onClick={() => registerMutation.mutate()}
                   >
@@ -470,7 +468,7 @@ export default function Register() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="h-11"
+                    className="h-11 border-white/10 text-white/60 hover:bg-white/5 hover:text-white"
                     onClick={() => { setSelectedCell(null); setCellPreview(null); }}
                   >
                     Cancel
@@ -483,14 +481,20 @@ export default function Register() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t bg-card py-8">
-        <div className="max-w-5xl mx-auto px-4 text-center space-y-2">
-          <p className="text-sm text-muted-foreground">
-            Art of Aviation Community Mural — A Reno 250 Celebration
-          </p>
-          <p className="text-xs text-muted-foreground/60">
-            Presented by Artown, The Discovery Museum & The George W. Gillemot Foundation
-          </p>
+      <footer className="border-t border-white/5 bg-[hsl(222,50%,6%)]">
+        <div className="max-w-5xl mx-auto px-4 py-10">
+          <div className="flex flex-wrap justify-center gap-6 sm:gap-10 items-center mb-6">
+            <img src={artownLogo} alt="Artown" className="h-8 w-auto rounded-md opacity-70" />
+            <img src={socLogo} alt="Strengthen our Community" className="h-7 w-auto rounded-md opacity-70 bg-white/80 px-2 py-0.5" />
+          </div>
+          <div className="text-center space-y-2">
+            <p className="text-sm text-white/50">
+              Art of Aviation Community Mural — A Reno 250 Celebration
+            </p>
+            <p className="text-xs text-white/30">
+              Presented by Artown, The Discovery Museum, The George W. Gillemot Foundation & Strengthen our Community
+            </p>
+          </div>
         </div>
       </footer>
     </div>

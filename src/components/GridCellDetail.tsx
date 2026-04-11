@@ -77,22 +77,22 @@ export function GridCellDetail({ gridCell, assignment, onClose }: Props) {
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md bg-[hsl(222,40%,12%)] border-white/10 text-white">
         <DialogHeader>
-          <DialogTitle className="text-xl">Grid Cell {gridCell}</DialogTitle>
+          <DialogTitle className="text-xl text-white">Grid Cell {gridCell}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           {/* Status */}
           <div>
-            <label className="text-sm font-medium text-muted-foreground">Status</label>
+            <label className="text-sm font-medium text-white/50">Status</label>
             <Select value={assignment?.status ?? 'available'} onValueChange={(v) => handleStatusChange(v as GridStatus)}>
-              <SelectTrigger>
+              <SelectTrigger className="bg-white/5 border-white/10 text-white">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-[hsl(222,40%,15%)] border-white/10">
                 {STATUS_OPTIONS.map(opt => (
-                  <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                  <SelectItem key={opt.value} value={opt.value} className="text-white/80 focus:bg-white/10 focus:text-white">{opt.label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -100,18 +100,18 @@ export function GridCellDetail({ gridCell, assignment, onClose }: Props) {
 
           {/* Assigned Artist */}
           <div>
-            <label className="text-sm font-medium text-muted-foreground">Assigned Artist</label>
+            <label className="text-sm font-medium text-white/50">Assigned Artist</label>
             <Select
               value={assignment?.artist_id ?? 'none'}
               onValueChange={(v) => handleAssignArtist(v === 'none' ? '' : v)}
             >
-              <SelectTrigger>
+              <SelectTrigger className="bg-white/5 border-white/10 text-white">
                 <SelectValue placeholder="Select artist..." />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">— None —</SelectItem>
+              <SelectContent className="bg-[hsl(222,40%,15%)] border-white/10">
+                <SelectItem value="none" className="text-white/50 focus:bg-white/10 focus:text-white">— None —</SelectItem>
                 {artists?.map(a => (
-                  <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>
+                  <SelectItem key={a.id} value={a.id} className="text-white/80 focus:bg-white/10 focus:text-white">{a.name}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -119,44 +119,45 @@ export function GridCellDetail({ gridCell, assignment, onClose }: Props) {
 
           {/* Artist Info */}
           {assignment?.artists && (
-            <div className="bg-muted rounded-lg p-3 text-sm space-y-1">
-              <div><span className="font-medium">Name:</span> {assignment.artists.name}</div>
-              {assignment.artists.email && <div><span className="font-medium">Email:</span> {assignment.artists.email}</div>}
-              {assignment.artists.phone && <div><span className="font-medium">Phone:</span> {assignment.artists.phone}</div>}
+            <div className="bg-white/5 border border-white/10 rounded-lg p-3 text-sm space-y-1">
+              <div><span className="font-medium text-white/50">Name:</span> <span className="text-white">{assignment.artists.name}</span></div>
+              {assignment.artists.email && <div><span className="font-medium text-white/50">Email:</span> <span className="text-white">{assignment.artists.email}</span></div>}
+              {assignment.artists.phone && <div><span className="font-medium text-white/50">Phone:</span> <span className="text-white">{assignment.artists.phone}</span></div>}
             </div>
           )}
 
           {/* Quick add new artist */}
           {!showNewArtist ? (
-            <Button variant="outline" size="sm" onClick={() => setShowNewArtist(true)}>
+            <Button variant="outline" size="sm" onClick={() => setShowNewArtist(true)} className="border-white/10 text-white/60 hover:bg-white/5 hover:text-white">
               + Add New Artist
             </Button>
           ) : (
-            <div className="space-y-2 border rounded-lg p-3">
-              <Input placeholder="Name *" value={newName} onChange={e => setNewName(e.target.value)} />
-              <Input placeholder="Email" value={newEmail} onChange={e => setNewEmail(e.target.value)} />
-              <Input placeholder="Phone" value={newPhone} onChange={e => setNewPhone(e.target.value)} />
+            <div className="space-y-2 border border-white/10 rounded-lg p-3 bg-white/3">
+              <Input placeholder="Name *" value={newName} onChange={e => setNewName(e.target.value)} className="bg-white/5 border-white/10 text-white placeholder:text-white/30" />
+              <Input placeholder="Email" value={newEmail} onChange={e => setNewEmail(e.target.value)} className="bg-white/5 border-white/10 text-white placeholder:text-white/30" />
+              <Input placeholder="Phone" value={newPhone} onChange={e => setNewPhone(e.target.value)} className="bg-white/5 border-white/10 text-white placeholder:text-white/30" />
               <div className="flex gap-2">
-                <Button size="sm" onClick={handleCreateAndAssign} disabled={!newName.trim()}>Create & Assign</Button>
-                <Button size="sm" variant="ghost" onClick={() => setShowNewArtist(false)}>Cancel</Button>
+                <Button size="sm" onClick={handleCreateAndAssign} disabled={!newName.trim()} className="bg-amber-500 hover:bg-amber-600 text-white">Create & Assign</Button>
+                <Button size="sm" variant="ghost" onClick={() => setShowNewArtist(false)} className="text-white/50 hover:text-white hover:bg-white/5">Cancel</Button>
               </div>
             </div>
           )}
 
           {/* Notes */}
           <div>
-            <label className="text-sm font-medium text-muted-foreground">Notes</label>
+            <label className="text-sm font-medium text-white/50">Notes</label>
             <Textarea
               defaultValue={assignment?.notes ?? ''}
               onBlur={(e) => handleNotesChange(e.target.value)}
               placeholder="Add notes..."
               rows={2}
+              className="bg-white/5 border-white/10 text-white placeholder:text-white/30"
             />
           </div>
 
           {/* Assignment date */}
           {assignment?.assigned_at && (
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs text-white/30">
               Assigned: {format(new Date(assignment.assigned_at), 'MMM d, yyyy h:mm a')}
             </div>
           )}
@@ -164,10 +165,10 @@ export function GridCellDetail({ gridCell, assignment, onClose }: Props) {
           {/* Status History */}
           {history && history.length > 0 && (
             <div>
-              <label className="text-sm font-medium text-muted-foreground">History</label>
+              <label className="text-sm font-medium text-white/50">History</label>
               <div className="max-h-32 overflow-y-auto space-y-1 mt-1">
                 {history.map(h => (
-                  <div key={h.id} className="text-xs text-muted-foreground flex justify-between">
+                  <div key={h.id} className="text-xs text-white/30 flex justify-between">
                     <span>{h.old_status ?? '—'} → {h.new_status}</span>
                     <span>{format(new Date(h.created_at), 'M/d h:mm a')}</span>
                   </div>
