@@ -77,22 +77,22 @@ export function GridCellDetail({ gridCell, assignment, onClose }: Props) {
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="max-w-md bg-[hsl(222,40%,12%)] border-white/10 text-white">
+      <DialogContent className="max-w-md bg-[#0a0a0a] border-white/[0.08] text-white">
         <DialogHeader>
-          <DialogTitle className="text-xl text-white">Grid Cell {gridCell}</DialogTitle>
+          <DialogTitle className="text-xl text-white">Grid Cell <span className="text-[#7fff00]">{gridCell}</span></DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           {/* Status */}
           <div>
-            <label className="text-sm font-medium text-white/50">Status</label>
+            <label className="text-sm font-medium text-white/40" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>Status</label>
             <Select value={assignment?.status ?? 'available'} onValueChange={(v) => handleStatusChange(v as GridStatus)}>
-              <SelectTrigger className="bg-white/5 border-white/10 text-white">
+              <SelectTrigger className="bg-white/[0.03] border-white/[0.08] text-white">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-[hsl(222,40%,15%)] border-white/10">
+              <SelectContent className="bg-[#111] border-white/[0.08]">
                 {STATUS_OPTIONS.map(opt => (
-                  <SelectItem key={opt.value} value={opt.value} className="text-white/80 focus:bg-white/10 focus:text-white">{opt.label}</SelectItem>
+                  <SelectItem key={opt.value} value={opt.value} className="text-white/70 focus:bg-white/[0.05] focus:text-white">{opt.label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -100,18 +100,18 @@ export function GridCellDetail({ gridCell, assignment, onClose }: Props) {
 
           {/* Assigned Artist */}
           <div>
-            <label className="text-sm font-medium text-white/50">Assigned Artist</label>
+            <label className="text-sm font-medium text-white/40" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>Assigned Artist</label>
             <Select
               value={assignment?.artist_id ?? 'none'}
               onValueChange={(v) => handleAssignArtist(v === 'none' ? '' : v)}
             >
-              <SelectTrigger className="bg-white/5 border-white/10 text-white">
+              <SelectTrigger className="bg-white/[0.03] border-white/[0.08] text-white">
                 <SelectValue placeholder="Select artist..." />
               </SelectTrigger>
-              <SelectContent className="bg-[hsl(222,40%,15%)] border-white/10">
-                <SelectItem value="none" className="text-white/50 focus:bg-white/10 focus:text-white">— None —</SelectItem>
+              <SelectContent className="bg-[#111] border-white/[0.08]">
+                <SelectItem value="none" className="text-white/40 focus:bg-white/[0.05] focus:text-white">— None —</SelectItem>
                 {artists?.map(a => (
-                  <SelectItem key={a.id} value={a.id} className="text-white/80 focus:bg-white/10 focus:text-white">{a.name}</SelectItem>
+                  <SelectItem key={a.id} value={a.id} className="text-white/70 focus:bg-white/[0.05] focus:text-white">{a.name}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -119,45 +119,45 @@ export function GridCellDetail({ gridCell, assignment, onClose }: Props) {
 
           {/* Artist Info */}
           {assignment?.artists && (
-            <div className="bg-white/5 border border-white/10 rounded-lg p-3 text-sm space-y-1">
-              <div><span className="font-medium text-white/50">Name:</span> <span className="text-white">{assignment.artists.name}</span></div>
-              {assignment.artists.email && <div><span className="font-medium text-white/50">Email:</span> <span className="text-white">{assignment.artists.email}</span></div>}
-              {assignment.artists.phone && <div><span className="font-medium text-white/50">Phone:</span> <span className="text-white">{assignment.artists.phone}</span></div>}
+            <div className="bg-white/[0.02] border border-white/[0.06] rounded-lg p-3 text-sm space-y-1" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+              <div><span className="font-medium text-white/40">Name:</span> <span className="text-white">{assignment.artists.name}</span></div>
+              {assignment.artists.email && <div><span className="font-medium text-white/40">Email:</span> <span className="text-white">{assignment.artists.email}</span></div>}
+              {assignment.artists.phone && <div><span className="font-medium text-white/40">Phone:</span> <span className="text-white">{assignment.artists.phone}</span></div>}
             </div>
           )}
 
           {/* Quick add new artist */}
           {!showNewArtist ? (
-            <Button variant="outline" size="sm" onClick={() => setShowNewArtist(true)} className="border-white/10 text-white/60 hover:bg-white/5 hover:text-white">
+            <Button variant="outline" size="sm" onClick={() => setShowNewArtist(true)} className="border-white/[0.08] text-white/50 hover:bg-white/[0.03] hover:text-[#7fff00] hover:border-[#7fff00]/30">
               + Add New Artist
             </Button>
           ) : (
-            <div className="space-y-2 border border-white/10 rounded-lg p-3 bg-white/3">
-              <Input placeholder="Name *" value={newName} onChange={e => setNewName(e.target.value)} className="bg-white/5 border-white/10 text-white placeholder:text-white/30" />
-              <Input placeholder="Email" value={newEmail} onChange={e => setNewEmail(e.target.value)} className="bg-white/5 border-white/10 text-white placeholder:text-white/30" />
-              <Input placeholder="Phone" value={newPhone} onChange={e => setNewPhone(e.target.value)} className="bg-white/5 border-white/10 text-white placeholder:text-white/30" />
+            <div className="space-y-2 border border-white/[0.06] rounded-lg p-3 bg-white/[0.02]">
+              <Input placeholder="Name *" value={newName} onChange={e => setNewName(e.target.value)} className="bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20" />
+              <Input placeholder="Email" value={newEmail} onChange={e => setNewEmail(e.target.value)} className="bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20" />
+              <Input placeholder="Phone" value={newPhone} onChange={e => setNewPhone(e.target.value)} className="bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20" />
               <div className="flex gap-2">
-                <Button size="sm" onClick={handleCreateAndAssign} disabled={!newName.trim()} className="bg-amber-500 hover:bg-amber-600 text-white">Create & Assign</Button>
-                <Button size="sm" variant="ghost" onClick={() => setShowNewArtist(false)} className="text-white/50 hover:text-white hover:bg-white/5">Cancel</Button>
+                <Button size="sm" onClick={handleCreateAndAssign} disabled={!newName.trim()} className="btn-neon rounded">Create & Assign</Button>
+                <Button size="sm" variant="ghost" onClick={() => setShowNewArtist(false)} className="text-white/40 hover:text-white hover:bg-white/[0.03]">Cancel</Button>
               </div>
             </div>
           )}
 
           {/* Notes */}
           <div>
-            <label className="text-sm font-medium text-white/50">Notes</label>
+            <label className="text-sm font-medium text-white/40" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>Notes</label>
             <Textarea
               defaultValue={assignment?.notes ?? ''}
               onBlur={(e) => handleNotesChange(e.target.value)}
               placeholder="Add notes..."
               rows={2}
-              className="bg-white/5 border-white/10 text-white placeholder:text-white/30"
+              className="bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20"
             />
           </div>
 
           {/* Assignment date */}
           {assignment?.assigned_at && (
-            <div className="text-xs text-white/30">
+            <div className="text-xs text-white/20" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
               Assigned: {format(new Date(assignment.assigned_at), 'MMM d, yyyy h:mm a')}
             </div>
           )}
@@ -165,10 +165,10 @@ export function GridCellDetail({ gridCell, assignment, onClose }: Props) {
           {/* Status History */}
           {history && history.length > 0 && (
             <div>
-              <label className="text-sm font-medium text-white/50">History</label>
+              <label className="text-sm font-medium text-white/40" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>History</label>
               <div className="max-h-32 overflow-y-auto space-y-1 mt-1">
                 {history.map(h => (
-                  <div key={h.id} className="text-xs text-white/30 flex justify-between">
+                  <div key={h.id} className="text-xs text-white/25 flex justify-between" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
                     <span>{h.old_status ?? '—'} → {h.new_status}</span>
                     <span>{format(new Date(h.created_at), 'M/d h:mm a')}</span>
                   </div>

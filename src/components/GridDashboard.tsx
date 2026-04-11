@@ -23,9 +23,9 @@ const ROW_HEIGHTS = H_LINES.slice(0, -1).map((h, i) => H_LINES[i + 1] - h);
 const ROW_FR = ROW_HEIGHTS.map(h => `${h}fr`).join(' ');
 
 const STATUS_COLORS: Record<GridStatus, string> = {
-  registered: 'bg-blue-500/50 border border-blue-400/60 hover:bg-blue-500/70',
-  picked_up: 'bg-amber-500/50 border border-amber-400/60 hover:bg-amber-500/70',
-  dropped_off: 'bg-emerald-500/50 border border-emerald-400/60 hover:bg-emerald-500/70',
+  registered: 'bg-[#7fff00]/30 border border-[#7fff00]/50 hover:bg-[#7fff00]/50',
+  picked_up: 'bg-yellow-500/40 border border-yellow-400/60 hover:bg-yellow-500/60',
+  dropped_off: 'bg-emerald-500/40 border border-emerald-400/60 hover:bg-emerald-500/60',
 };
 
 const STATUS_LABELS: Record<GridStatus, string> = {
@@ -60,8 +60,8 @@ export function GridDashboard() {
     return (
       <div className="flex items-center justify-center h-96">
         <div className="text-center space-y-3">
-          <div className="h-8 w-8 border-2 border-amber-400/30 border-t-amber-400 rounded-full animate-spin mx-auto" />
-          <p className="font-medium text-white/50">Loading grid...</p>
+          <div className="h-8 w-8 border-2 border-[#7fff00]/30 border-t-[#7fff00] rounded-full animate-spin mx-auto" />
+          <p className="font-medium text-white/40">Loading grid...</p>
         </div>
       </div>
     );
@@ -71,15 +71,15 @@ export function GridDashboard() {
     <div className="space-y-6">
       {/* Stats bar */}
       <div className="flex flex-wrap gap-3 text-sm">
-        <StatBadge label="Total" count={stats.total} color="bg-white/5 text-white/70 border-white/10" />
-        <StatBadge label="Available" count={stats.available} color="bg-white/5 text-white/50 border-white/10" />
-        <StatBadge label="Registered" count={stats.registered} color="bg-blue-500/15 text-blue-400 border-blue-500/30" />
-        <StatBadge label="Picked Up" count={stats.picked_up} color="bg-amber-500/15 text-amber-400 border-amber-500/30" />
-        <StatBadge label="Dropped Off" count={stats.dropped_off} color="bg-emerald-500/15 text-emerald-400 border-emerald-500/30" />
+        <StatBadge label="Total" count={stats.total} color="bg-white/[0.03] text-white/60 border-white/[0.08]" />
+        <StatBadge label="Available" count={stats.available} color="bg-white/[0.03] text-white/40 border-white/[0.08]" />
+        <StatBadge label="Registered" count={stats.registered} color="bg-[#7fff00]/10 text-[#7fff00] border-[#7fff00]/25" />
+        <StatBadge label="Picked Up" count={stats.picked_up} color="bg-yellow-500/10 text-yellow-400 border-yellow-500/25" />
+        <StatBadge label="Dropped Off" count={stats.dropped_off} color="bg-emerald-500/10 text-emerald-400 border-emerald-500/25" />
       </div>
 
       {/* Grid overlay on mural */}
-      <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
+      <div className="relative rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/[0.08]">
         <img
           src="/mural-grid.png"
           alt="Community Mural Grid"
@@ -108,16 +108,16 @@ export function GridDashboard() {
                   onClick={() => setSelectedCell(cellId)}
                   className={`
                     transition-all duration-200 cursor-pointer flex items-center justify-center
-                    text-[0.5rem] sm:text-[0.65rem] font-bold text-white/80 hover:text-white
+                    text-[0.5rem] sm:text-[0.65rem] font-bold text-white/70 hover:text-white
                     hover:scale-105 hover:z-10 relative
                     ${hasArtist
                       ? STATUS_COLORS[status]
-                      : 'border border-white/15 bg-transparent hover:bg-white/20'
+                      : 'border border-white/10 bg-transparent hover:bg-white/15'
                     }
                   `}
                   title={`${cellId} — ${hasArtist ? STATUS_LABELS[status] : 'Available'}${assignment?.artists ? ` (${assignment.artists.name})` : ''}`}
                 >
-                  <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">{cellId}</span>
+                  <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">{cellId}</span>
                 </button>
               );
             })
@@ -126,15 +126,15 @@ export function GridDashboard() {
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap gap-4 text-xs">
+      <div className="flex flex-wrap gap-4 text-xs" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
         <div className="flex items-center gap-1.5">
-          <div className="w-4 h-4 rounded border border-dashed border-white/30 bg-white/5" />
-          <span className="text-white/50 font-medium">Available</span>
+          <div className="w-4 h-4 rounded border border-dashed border-white/20 bg-white/[0.03]" />
+          <span className="text-white/40 font-medium">Available</span>
         </div>
         {(Object.keys(STATUS_COLORS) as GridStatus[]).map(status => (
           <div key={status} className="flex items-center gap-1.5">
             <div className={`w-4 h-4 rounded ${STATUS_COLORS[status]}`} />
-            <span className="text-white/50 font-medium">{STATUS_LABELS[status]}</span>
+            <span className="text-white/40 font-medium">{STATUS_LABELS[status]}</span>
           </div>
         ))}
       </div>
@@ -153,7 +153,7 @@ export function GridDashboard() {
 
 function StatBadge({ label, count, color }: { label: string; count: number; color: string }) {
   return (
-    <span className={`px-3 py-1.5 rounded-lg font-semibold border text-sm ${color}`}>
+    <span className={`px-3 py-1.5 rounded font-bold border text-sm ${color}`} style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
       {label}: {count}
     </span>
   );

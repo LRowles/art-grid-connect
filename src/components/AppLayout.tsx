@@ -14,15 +14,16 @@ export function AppLayout({ children }: { children: ReactNode }) {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 bg-[hsl(222,47%,8%)]/95 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/20">
+    <div className="min-h-screen bg-black">
+      <header className="sticky top-0 z-50 bg-black/95 backdrop-blur-xl border-b border-white/[0.05]">
+        <div className="artown-dash w-full" />
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-4">
             <Link to="/admin" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center border border-amber-500/30">
+              <div className="w-8 h-8 rounded bg-[#7fff00]/15 text-[#7fff00] flex items-center justify-center border border-[#7fff00]/25">
                 <Plane className="h-4 w-4" />
               </div>
-              <span className="text-lg font-bold text-white hidden sm:inline">Mural Admin</span>
+              <span className="text-lg font-bold text-white hidden sm:inline" style={{ fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase' }}>Mural Admin</span>
             </Link>
             <nav className="flex gap-1 ml-4">
               {navItems.map(item => {
@@ -31,10 +32,10 @@ export function AppLayout({ children }: { children: ReactNode }) {
                   <Link
                     key={item.to}
                     to={item.to}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                    className={`flex items-center gap-2 px-3 py-2 rounded text-sm font-bold uppercase tracking-wider transition-all duration-200 ${
                       isActive
-                        ? 'bg-amber-500 text-white shadow-md shadow-amber-500/25'
-                        : 'text-white/50 hover:text-white hover:bg-white/10'
+                        ? 'bg-[#7fff00] text-black shadow-md shadow-[#7fff00]/25'
+                        : 'text-white/40 hover:text-[#7fff00] hover:bg-white/[0.03]'
                     }`}
                   >
                     <item.icon className="h-4 w-4" />
@@ -47,7 +48,8 @@ export function AppLayout({ children }: { children: ReactNode }) {
           <div className="flex items-center gap-2">
             <Link
               to="/"
-              className="flex items-center gap-1 text-xs text-white/30 hover:text-amber-400 transition-colors mr-2"
+              className="flex items-center gap-1 text-xs text-white/25 hover:text-[#7fff00] transition-colors mr-2"
+              style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}
             >
               <ExternalLink className="h-3 w-3" />
               <span className="hidden sm:inline">Public site</span>
@@ -56,7 +58,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
               variant="ghost"
               size="sm"
               onClick={signOut}
-              className="text-white/40 hover:text-red-400 hover:bg-red-500/10"
+              className="text-white/30 hover:text-red-400 hover:bg-red-500/10"
             >
               <LogOut className="h-4 w-4 mr-1" />
               <span className="hidden sm:inline">Sign Out</span>
