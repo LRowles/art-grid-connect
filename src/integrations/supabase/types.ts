@@ -100,6 +100,57 @@ export type Database = {
         }
         Relationships: []
       }
+      backup_artists: {
+        Row: {
+          assigned_grid_cell: string | null
+          aviation_connection: boolean | null
+          aviation_description: string | null
+          bio: string | null
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          phone: string | null
+          promoted_at: string | null
+          social_handle: string | null
+          status: string
+          waitlist_position: number
+          website: string | null
+        }
+        Insert: {
+          assigned_grid_cell?: string | null
+          aviation_connection?: boolean | null
+          aviation_description?: string | null
+          bio?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          phone?: string | null
+          promoted_at?: string | null
+          social_handle?: string | null
+          status?: string
+          waitlist_position: number
+          website?: string | null
+        }
+        Update: {
+          assigned_grid_cell?: string | null
+          aviation_connection?: boolean | null
+          aviation_description?: string | null
+          bio?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          phone?: string | null
+          promoted_at?: string | null
+          social_handle?: string | null
+          status?: string
+          waitlist_position?: number
+          website?: string | null
+        }
+        Relationships: []
+      }
       email_reminders: {
         Row: {
           artist_id: string
@@ -205,7 +256,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      next_waitlist_position: { Args: never; Returns: number }
     }
     Enums: {
       grid_status: "registered" | "picked_up" | "dropped_off"
