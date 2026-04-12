@@ -14,32 +14,123 @@ export type Database = {
   }
   public: {
     Tables: {
+      artist_posts: {
+        Row: {
+          approved: boolean | null
+          artist_id: string
+          caption: string | null
+          created_at: string
+          grid_cell: string
+          id: string
+          media_type: string
+          media_url: string
+        }
+        Insert: {
+          approved?: boolean | null
+          artist_id: string
+          caption?: string | null
+          created_at?: string
+          grid_cell: string
+          id?: string
+          media_type?: string
+          media_url: string
+        }
+        Update: {
+          approved?: boolean | null
+          artist_id?: string
+          caption?: string | null
+          created_at?: string
+          grid_cell?: string
+          id?: string
+          media_type?: string
+          media_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "artist_posts_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "artists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       artists: {
         Row: {
+          avatar_url: string | null
+          aviation_connection: boolean | null
+          aviation_description: string | null
+          bio: string | null
           created_at: string
           email: string | null
           id: string
           name: string
           phone: string | null
+          social_handle: string | null
           updated_at: string
+          website: string | null
         }
         Insert: {
+          avatar_url?: string | null
+          aviation_connection?: boolean | null
+          aviation_description?: string | null
+          bio?: string | null
           created_at?: string
           email?: string | null
           id?: string
           name: string
           phone?: string | null
+          social_handle?: string | null
           updated_at?: string
+          website?: string | null
         }
         Update: {
+          avatar_url?: string | null
+          aviation_connection?: boolean | null
+          aviation_description?: string | null
+          bio?: string | null
           created_at?: string
           email?: string | null
           id?: string
           name?: string
           phone?: string | null
+          social_handle?: string | null
           updated_at?: string
+          website?: string | null
         }
         Relationships: []
+      }
+      email_reminders: {
+        Row: {
+          artist_id: string
+          email_type: string
+          id: string
+          sent_at: string
+          status: string
+        }
+        Insert: {
+          artist_id: string
+          email_type: string
+          id?: string
+          sent_at?: string
+          status?: string
+        }
+        Update: {
+          artist_id?: string
+          email_type?: string
+          id?: string
+          sent_at?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_reminders_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "artists"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       grid_assignments: {
         Row: {
