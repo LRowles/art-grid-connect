@@ -14,81 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
-      artists: {
-        Row: {
-          created_at: string
-          email: string | null
-          id: string
-          name: string
-          phone: string | null
-          bio: string | null
-          website: string | null
-          social_handle: string | null
-          aviation_connection: boolean
-          aviation_description: string | null
-          avatar_url: string | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          email?: string | null
-          id?: string
-          name: string
-          phone?: string | null
-          bio?: string | null
-          website?: string | null
-          social_handle?: string | null
-          aviation_connection?: boolean
-          aviation_description?: string | null
-          avatar_url?: string | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          email?: string | null
-          id?: string
-          name?: string
-          phone?: string | null
-          bio?: string | null
-          website?: string | null
-          social_handle?: string | null
-          aviation_connection?: boolean
-          aviation_description?: string | null
-          avatar_url?: string | null
-          updated_at?: string
-        }
-        Relationships: []
-      }
       artist_posts: {
         Row: {
-          id: string
+          approved: boolean | null
           artist_id: string
-          grid_cell: string
           caption: string | null
-          media_url: string
-          media_type: string
           created_at: string
-          approved: boolean
+          grid_cell: string
+          id: string
+          media_type: string
+          media_url: string
         }
         Insert: {
-          id?: string
+          approved?: boolean | null
           artist_id: string
-          grid_cell: string
           caption?: string | null
-          media_url: string
-          media_type?: string
           created_at?: string
-          approved?: boolean
+          grid_cell: string
+          id?: string
+          media_type?: string
+          media_url: string
         }
         Update: {
-          id?: string
+          approved?: boolean | null
           artist_id?: string
-          grid_cell?: string
           caption?: string | null
-          media_url?: string
-          media_type?: string
           created_at?: string
-          approved?: boolean
+          grid_cell?: string
+          id?: string
+          media_type?: string
+          media_url?: string
         }
         Relationships: [
           {
@@ -100,25 +55,70 @@ export type Database = {
           },
         ]
       }
+      artists: {
+        Row: {
+          avatar_url: string | null
+          aviation_connection: boolean | null
+          aviation_description: string | null
+          bio: string | null
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          phone: string | null
+          social_handle: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          aviation_connection?: boolean | null
+          aviation_description?: string | null
+          bio?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          phone?: string | null
+          social_handle?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          aviation_connection?: boolean | null
+          aviation_description?: string | null
+          bio?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          phone?: string | null
+          social_handle?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       email_reminders: {
         Row: {
-          id: string
           artist_id: string
           email_type: string
+          id: string
           sent_at: string
           status: string
         }
         Insert: {
-          id?: string
           artist_id: string
           email_type: string
+          id?: string
           sent_at?: string
           status?: string
         }
         Update: {
-          id?: string
           artist_id?: string
           email_type?: string
+          id?: string
           sent_at?: string
           status?: string
         }
