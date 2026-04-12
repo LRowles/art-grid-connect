@@ -14,68 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      backup_artists: {
-        Row: {
-          id: string
-          name: string
-          email: string | null
-          phone: string | null
-          bio: string | null
-          website: string | null
-          social_handle: string | null
-          aviation_connection: boolean | null
-          aviation_description: string | null
-          waitlist_position: number
-          status: string
-          assigned_grid_cell: string | null
-          promoted_at: string | null
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          email?: string | null
-          phone?: string | null
-          bio?: string | null
-          website?: string | null
-          social_handle?: string | null
-          aviation_connection?: boolean | null
-          aviation_description?: string | null
-          waitlist_position: number
-          status?: string
-          assigned_grid_cell?: string | null
-          promoted_at?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          email?: string | null
-          phone?: string | null
-          bio?: string | null
-          website?: string | null
-          social_handle?: string | null
-          aviation_connection?: boolean | null
-          aviation_description?: string | null
-          waitlist_position?: number
-          status?: string
-          assigned_grid_cell?: string | null
-          promoted_at?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fk_assigned_grid_cell"
-            columns: ["assigned_grid_cell"]
-            isOneToOne: false
-            referencedRelation: "grid_assignments"
-            referencedColumns: ["grid_cell"]
-          },
-        ]
-      }
       artist_posts: {
         Row: {
           approved: boolean | null
@@ -158,6 +96,57 @@ export type Database = {
           phone?: string | null
           social_handle?: string | null
           updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      backup_artists: {
+        Row: {
+          assigned_grid_cell: string | null
+          aviation_connection: boolean | null
+          aviation_description: string | null
+          bio: string | null
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          phone: string | null
+          promoted_at: string | null
+          social_handle: string | null
+          status: string
+          waitlist_position: number
+          website: string | null
+        }
+        Insert: {
+          assigned_grid_cell?: string | null
+          aviation_connection?: boolean | null
+          aviation_description?: string | null
+          bio?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          phone?: string | null
+          promoted_at?: string | null
+          social_handle?: string | null
+          status?: string
+          waitlist_position: number
+          website?: string | null
+        }
+        Update: {
+          assigned_grid_cell?: string | null
+          aviation_connection?: boolean | null
+          aviation_description?: string | null
+          bio?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          phone?: string | null
+          promoted_at?: string | null
+          social_handle?: string | null
+          status?: string
+          waitlist_position?: number
           website?: string | null
         }
         Relationships: []
@@ -267,7 +256,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      next_waitlist_position: { Args: never; Returns: number }
     }
     Enums: {
       grid_status: "registered" | "picked_up" | "dropped_off"
