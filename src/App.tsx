@@ -11,6 +11,8 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import About from "./pages/About";
+import Events from "./pages/Events";
+import FollowAlong from "./pages/FollowAlong";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +49,8 @@ const App = () => (
             <Route path="/" element={<Register />} />
             <Route path="/register" element={<Register />} />
             <Route path="/about" element={<About />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/follow-along" element={<FollowAlong />} />
             <Route path="/admin/*" element={<ProtectedRoutes />} />
           </Routes>
         </BrowserRouter>

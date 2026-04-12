@@ -1,10 +1,11 @@
 import { PublicNav } from '@/components/PublicNav';
-import { Plane, Heart, MapPin, Calendar, Palette, Star, ArrowRight, ExternalLink, Rocket } from 'lucide-react';
+import { Plane, Heart, MapPin, Calendar, Palette, Star, ArrowRight, ExternalLink, Rocket, Globe, Instagram, Compass } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import artownLogo from '@/assets/artown-logo.jpg';
 import socLogo from '@/assets/soc-logo.png';
 import discoveryLogo from '@/assets/discovery-logo.jpg';
 import rwfLogo from '@/assets/rwf-logo.png';
+import muralArtwork from '@/assets/mural-artwork.png';
 
 export default function About() {
   return (
@@ -52,6 +53,102 @@ export default function About() {
             centerpiece to a new aviation-themed exhibition and helping build excitement for the inaugural{' '}
             <strong className="text-[#dc2626]">Red, White, and Flight</strong> drone show and concert event.
           </p>
+        </div>
+
+        {/* ====== MEET THE ARTIST — Reilly Moss ====== */}
+        <div className="glass-card overflow-hidden relative">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#dc2626] via-[#ffcc00] to-[#00ccff]" />
+          
+          {/* Mural artwork image */}
+          <div className="w-full overflow-hidden" style={{ maxHeight: '400px' }}>
+            <img 
+              src={muralArtwork} 
+              alt="A Sky Written by Dreamers — Art of Aviation mural by Reilly Moss" 
+              className="w-full object-cover object-center"
+            />
+          </div>
+          
+          <div className="p-8 space-y-6">
+            <div className="flex items-center gap-3">
+              <span className="w-11 h-11 bg-[#dc2626]/15 text-[#dc2626] flex items-center justify-center border border-[#dc2626]/25">
+                <Star className="h-6 w-6" />
+              </span>
+              <div>
+                <p className="text-xs uppercase tracking-[0.25em] text-[#dc2626] font-bold">Meet the Artist</p>
+                <h2 className="text-3xl font-bold text-white">Reilly Moss</h2>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <p className="text-lg text-white/60 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+                Reilly Moss is an artist and creative designer from Reno, Nevada. Surrounded by art from a
+                young age, she gravitates toward vivid colors and dynamic compositions, using them to inspire
+                joy and spark connection. She works across a variety of mediums, including digital illustration,
+                chalk pastels and acrylic paint. Her work often celebrates the beauty of the natural world
+                through vibrant depictions of wildlife and plant life, while also exploring themes of history,
+                innovation and community.
+              </p>
+
+              <div className="bg-white/[0.03] border-l-4 border-[#dc2626] p-6 my-6">
+                <h3 className="text-xl font-bold text-white mb-3" style={{ fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase' }}>
+                  "A Sky Written by Dreamers"
+                </h3>
+                <p className="text-base text-white/50 leading-relaxed italic" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+                  "This mural honors the United States' 250th anniversary — a reflection on the nation's enduring spirit 
+                  of innovation, freedom, and exploration, viewed through the lens of Northern Nevada. Rising from the 
+                  desert horizon into an illuminated sky, the composition blends past, present, and future, portraying 
+                  aviation as both a technological achievement and a powerful symbol of possibility."
+                </p>
+              </div>
+
+              <p className="text-base text-white/50 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+                The mural is envisioned as a sweeping, twilight-to-night panorama where America's story of
+                flight unfolds upward through the Northern Nevada sky. Beginning at the desert horizon, early milestones 
+                of flight emerge — a Wright brothers-era aircraft and a U.S. mail service plane — symbolizing the 
+                foundational belief that human imagination could overcome gravity. These historic aircraft rise alongside 
+                a hot air balloon and military planes, reflecting Reno's deep ties to the Hot Air Balloon Races, Air 
+                Races, and Stead Airport.
+              </p>
+
+              <p className="text-base text-white/50 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+                As the sky deepens, the mural transitions into a dreamlike atmosphere, illuminated by lanterns
+                and drones that perform a light show, forming the word "HOME." A rocket and satellite propel 
+                the narrative into the future, symbolizing continued exploration beyond Earth. Anchoring the scene 
+                is a young girl holding a paper airplane toward the sky, embodying curiosity, possibility, and the 
+                generational passing of dreams. An eagle watches over the composition — representing freedom, 
+                vision, and guidance.
+              </p>
+
+              <p className="text-base text-white/50 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+                In her illustration created for the United States' 250th celebration, Reilly brings these influences
+                together to craft a visual story that connects Northern Nevada's pioneering spirit with the
+                boundless promise of the future. It invites viewers to look upward — to honor 250 years of progress, 
+                to celebrate Northern Nevada's pioneering spirit, and to imagine the boundless horizons still ahead.
+              </p>
+            </div>
+
+            {/* Artist links */}
+            <div className="flex flex-wrap gap-4 pt-2">
+              <a
+                href="https://www.reillymoss.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.05] border border-white/[0.1] text-white/70 hover:text-white hover:border-[#dc2626]/40 transition-all text-base font-medium"
+                style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}
+              >
+                <Globe className="h-4 w-4" /> reillymoss.com <ExternalLink className="h-3.5 w-3.5 opacity-50" />
+              </a>
+              <a
+                href="https://www.instagram.com/reillymossart"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.05] border border-white/[0.1] text-white/70 hover:text-white hover:border-[#dc2626]/40 transition-all text-base font-medium"
+                style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}
+              >
+                <Instagram className="h-4 w-4" /> @reillymossart <ExternalLink className="h-3.5 w-3.5 opacity-50" />
+              </a>
+            </div>
+          </div>
         </div>
 
         {/* How to Participate */}
@@ -112,6 +209,39 @@ export default function About() {
             <strong className="text-white">The Discovery Museum</strong>, where we will unveil the final assembled mural.
             Celebrate with fellow artists and community members as we reveal this collaborative masterpiece!
           </p>
+          <Link
+            to="/events"
+            className="inline-flex items-center gap-2 text-[#dc2626] hover:text-[#ef4444] font-bold text-base uppercase tracking-wider transition-colors"
+            style={{ fontFamily: 'Inter, sans-serif' }}
+          >
+            View All Events <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        {/* Pathways to Aviation */}
+        <div className="glass-card p-8 space-y-4 relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#00ccff] via-[#dc2626] to-[#ffcc00]" />
+          <div className="flex items-center gap-3 mb-2">
+            <span className="w-11 h-11 bg-[#00ccff]/15 text-[#00ccff] flex items-center justify-center border border-[#00ccff]/25">
+              <Compass className="h-6 w-6" />
+            </span>
+            <h2 className="text-3xl font-bold text-white">Pathways to Aviation</h2>
+          </div>
+          <p className="text-lg text-white/50 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+            Inspired by the spirit of flight? Whether you're a student, career changer, or lifelong aviation enthusiast,{' '}
+            <strong className="text-white">Pathways to Aviation</strong> connects you with the resources, programs, and 
+            opportunities to find your next path in the world of aerospace. From pilot training to engineering, 
+            drone technology to air traffic control — discover where aviation can take you.
+          </p>
+          <a
+            href="https://pathwaystoaviation.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#00ccff]/10 hover:bg-[#00ccff]/20 border border-[#00ccff]/30 text-[#00ccff] font-bold text-base uppercase tracking-wider transition-all"
+          >
+            <Compass className="h-4 w-4" />
+            Find Your Path <ExternalLink className="h-4 w-4" />
+          </a>
         </div>
 
         {/* Red, White & Flight CTA */}

@@ -5,15 +5,21 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { toast } from '@/hooks/use-toast';
-import { CheckCircle2, Plane, Palette, MapPin, Calendar, ArrowRight, X, Mail, Phone, User, Star, ExternalLink, Rocket } from 'lucide-react';
+import {
+  CheckCircle2, Plane, Palette, MapPin, Calendar, ArrowRight, X, Mail, Phone, User,
+  Star, ExternalLink, Rocket, Globe, Instagram, Share2, Twitter, Facebook, Compass,
+  PlaneTakeoff
+} from 'lucide-react';
 import { PublicNav } from '@/components/PublicNav';
 import { sendConfirmationEmail } from '@/lib/sendConfirmationEmail';
 import artownLogo from '@/assets/artown-logo.jpg';
 import socLogo from '@/assets/soc-logo.png';
 import discoveryLogo from '@/assets/discovery-logo.jpg';
 import rwfLogo from '@/assets/rwf-logo.png';
+import muralArtwork from '@/assets/mural-artwork.png';
 
 const COLS = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R'];
 const ROWS = Array.from({ length: 13 }, (_, i) => i + 1);
@@ -44,6 +50,16 @@ type GridAssignment = {
   status: string;
 };
 
+type ArtistProfile = {
+  id: string;
+  name: string;
+  bio: string | null;
+  website: string | null;
+  social_handle: string | null;
+  aviation_connection: boolean;
+  aviation_description: string | null;
+};
+
 function usePublicGridAssignments() {
   return useQuery({
     queryKey: ['public_grid_assignments'],
@@ -54,6 +70,19 @@ function usePublicGridAssignments() {
         .order('grid_cell');
       if (error) throw error;
       return data as GridAssignment[];
+    },
+  });
+}
+
+function usePublicArtistProfiles() {
+  return useQuery({
+    queryKey: ['public_artist_profiles'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('artists')
+        .select('id, name, bio, website, social_handle, aviation_connection, aviation_description');
+      if (error) throw error;
+      return data as ArtistProfile[];
     },
   });
 }
@@ -83,15 +112,67 @@ function cropCellFromMural(cellId: string): Promise<string> {
   });
 }
 
+/* Social sharing helpers */
+function getShareUrl() {
+  return 'https://artowncommunitymural.com';
+}
+
+function shareOnTwitter(cell: string, name: string) {
+  const text = `I just claimed Square ${cell} in the Art of Aviation Community Mural! 🎨✈️ Join me in creating a collaborative masterpiece celebrating Northern Nevada's aviation heritage. #ArtOfAviation #Reno250 #Artown`;
+  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(getShareUrl())}`, '_blank');
+}
+
+function shareOnFacebook(cell: string) {
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}&quote=${encodeURIComponent(`I just claimed Square ${cell} in the Art of Aviation Community Mural! Join me in creating a collaborative masterpiece.`)}`, '_blank');
+}
+
+function copyShareLink(cell: string) {
+  const text = `I just claimed Square ${cell} in the Art of Aviation Community Mural! Join me: ${getShareUrl()}`;
+  navigator.clipboard.writeText(text).then(() => {
+    // Toast handled by caller
+  });
+}
+
+/* ---- Hover tooltip component ---- */
+function ArtistHoverCard({ artist, cellId }: { artist: ArtistProfile | undefined; cellId: string }) {
+  if (!artist) return null;
+  return (
+    <div className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 bg-[#0a0a0a] border border-[#dc2626]/30 shadow-2xl shadow-black/50 p-3 pointer-events-none"
+      style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+      <p className="text-white font-bold text-sm truncate">{artist.name}</p>
+      <p className="text-white/30 text-xs mb-1">Square {cellId}</p>
+      {artist.bio && (
+        <p className="text-white/50 text-xs leading-relaxed line-clamp-2 mb-1">{artist.bio}</p>
+      )}
+      {artist.aviation_connection && artist.aviation_description && (
+        <p className="text-[#00ccff] text-xs flex items-center gap-1 mb-1">
+          <PlaneTakeoff className="h-3 w-3 shrink-0" /> {artist.aviation_description.slice(0, 60)}{artist.aviation_description.length > 60 ? '...' : ''}
+        </p>
+      )}
+      {artist.social_handle && (
+        <p className="text-[#dc2626]/70 text-xs truncate">{artist.social_handle}</p>
+      )}
+    </div>
+  );
+}
+
 export default function Register() {
   const queryClient = useQueryClient();
   const { data: assignments, isLoading } = usePublicGridAssignments();
+  const { data: artistProfiles } = usePublicArtistProfiles();
   const [selectedCell, setSelectedCell] = useState<string | null>(null);
+  const [hoveredCell, setHoveredCell] = useState<string | null>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [bio, setBio] = useState('');
+  const [website, setWebsite] = useState('');
+  const [socialHandle, setSocialHandle] = useState('');
+  const [aviationConnection, setAviationConnection] = useState(false);
+  const [aviationDescription, setAviationDescription] = useState('');
   const [success, setSuccess] = useState<string | null>(null);
   const [cellPreview, setCellPreview] = useState<string | null>(null);
+  const [showShareMenu, setShowShareMenu] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
 
   const assignmentMap = useMemo(() => {
@@ -99,6 +180,12 @@ export default function Register() {
     assignments?.forEach(a => map.set(a.grid_cell, a));
     return map;
   }, [assignments]);
+
+  const artistProfileMap = useMemo(() => {
+    const map = new Map<string, ArtistProfile>();
+    artistProfiles?.forEach(a => map.set(a.id, a));
+    return map;
+  }, [artistProfiles]);
 
   const takenCount = useMemo(() => {
     if (!assignments) return 0;
@@ -124,7 +211,16 @@ export default function Register() {
 
       const { data: artist, error: artistErr } = await supabase
         .from('artists')
-        .insert({ name: name.trim(), email: email.trim() || null, phone: phone.trim() || null })
+        .insert({
+          name: name.trim(),
+          email: email.trim() || null,
+          phone: phone.trim() || null,
+          bio: bio.trim() || null,
+          website: website.trim() || null,
+          social_handle: socialHandle.trim() || null,
+          aviation_connection: aviationConnection,
+          aviation_description: aviationDescription.trim() || null,
+        })
         .select()
         .single();
       if (artistErr) throw artistErr;
@@ -141,6 +237,7 @@ export default function Register() {
     onSuccess: async (result) => {
       setSuccess(result.cell);
       queryClient.invalidateQueries({ queryKey: ['public_grid_assignments'] });
+      queryClient.invalidateQueries({ queryKey: ['public_artist_profiles'] });
 
       if (result.artistEmail) {
         try {
@@ -179,7 +276,7 @@ export default function Register() {
     );
   }
 
-  /* ---------- Success state ---------- */
+  /* ---------- Success state with social sharing ---------- */
   if (success) {
     return (
       <div className="min-h-screen bg-black">
@@ -219,11 +316,52 @@ export default function Register() {
                   <span>Join us for the unveiling at <strong className="text-white">The Discovery</strong> on <strong className="text-white">July 2nd</strong></span>
                 </div>
               </div>
+
+              {/* Social Sharing */}
+              <div className="pt-4 space-y-3">
+                <p className="text-sm text-white/40 uppercase tracking-wider font-bold">Share on Social Media</p>
+                <div className="flex justify-center gap-3">
+                  <button
+                    onClick={() => shareOnTwitter(success, name)}
+                    className="flex items-center gap-2 px-4 py-2.5 bg-[#1DA1F2]/10 border border-[#1DA1F2]/30 text-[#1DA1F2] hover:bg-[#1DA1F2]/20 transition-all text-sm font-medium"
+                    style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}
+                  >
+                    <Twitter className="h-4 w-4" /> Twitter / X
+                  </button>
+                  <button
+                    onClick={() => shareOnFacebook(success)}
+                    className="flex items-center gap-2 px-4 py-2.5 bg-[#1877F2]/10 border border-[#1877F2]/30 text-[#1877F2] hover:bg-[#1877F2]/20 transition-all text-sm font-medium"
+                    style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}
+                  >
+                    <Facebook className="h-4 w-4" /> Facebook
+                  </button>
+                  <button
+                    onClick={() => {
+                      copyShareLink(success);
+                      toast({ title: 'Link copied!', description: 'Share link has been copied to your clipboard.' });
+                    }}
+                    className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.05] border border-white/[0.15] text-white/60 hover:text-white hover:bg-white/[0.1] transition-all text-sm font-medium"
+                    style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}
+                  >
+                    <Share2 className="h-4 w-4" /> Copy Link
+                  </button>
+                </div>
+              </div>
+
               {email.trim() && (
                 <p className="text-sm text-white/30">
                   A confirmation email with your square artwork has been sent to <strong className="text-white/50">{email.trim()}</strong>.
                 </p>
               )}
+
+              <div className="pt-2">
+                <Link
+                  to="/follow-along"
+                  className="inline-flex items-center gap-2 text-[#dc2626] hover:text-[#ef4444] font-bold text-sm uppercase tracking-wider transition-colors"
+                >
+                  Share your progress on Follow Along <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -304,30 +442,37 @@ export default function Register() {
         </div>
       </section>
 
-      {/* Red, White & Flight CTA Banner */}
-      <section className="cta-banner">
-        <div className="max-w-5xl mx-auto px-4 py-7 flex flex-col sm:flex-row items-center justify-between gap-5">
-          <div className="flex items-center gap-5">
-            <div className="bg-white rounded-lg p-2 shrink-0 shadow-lg">
-              <img src={rwfLogo} alt="Red, White and Flight" className="h-16 w-auto" />
+      {/* Meet the Artist — Reilly Moss callout */}
+      <section className="border-b border-white/[0.05] bg-black">
+        <div className="max-w-5xl mx-auto px-4 py-10">
+          <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+            <div className="w-full sm:w-72 shrink-0 overflow-hidden border border-white/[0.08] shadow-xl">
+              <img src={muralArtwork} alt="A Sky Written by Dreamers by Reilly Moss" className="w-full h-auto" />
             </div>
-            <div>
-              <h3 className="text-white font-bold text-lg sm:text-xl" style={{ fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase' }}>
-                July 4th Drone Show & Concert
-              </h3>
-              <p className="text-white/50 text-base mt-1" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
-                Free event at Mackay Stadium — drone show, Reno Phil concert & interactive expo
+            <div className="space-y-3 text-center sm:text-left">
+              <p className="text-xs uppercase tracking-[0.25em] text-[#dc2626] font-bold">Meet the Artist</p>
+              <h3 className="text-2xl sm:text-3xl font-bold text-white">Reilly Moss</h3>
+              <p className="text-base text-white/50 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+                "A Sky Written by Dreamers" — a sweeping panorama where America's story of flight unfolds 
+                through the Northern Nevada sky, blending past, present, and future into a powerful symbol of possibility.
               </p>
+              <div className="flex flex-wrap gap-3 justify-center sm:justify-start">
+                <a href="https://www.reillymoss.com" target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm text-white/50 hover:text-white transition-colors"
+                  style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+                  <Globe className="h-3.5 w-3.5" /> reillymoss.com
+                </a>
+                <a href="https://www.instagram.com/reillymossart" target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm text-white/50 hover:text-white transition-colors"
+                  style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+                  <Instagram className="h-3.5 w-3.5" /> @reillymossart
+                </a>
+              </div>
+              <Link to="/about" className="inline-flex items-center gap-1 text-sm text-[#dc2626]/80 hover:text-[#dc2626] font-bold uppercase tracking-wider transition-colors">
+                Read full artist statement <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
             </div>
           </div>
-          <a
-            href="https://redwhiteandflight.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#dc2626] hover:bg-[#ef4444] text-white font-bold text-base uppercase tracking-wider transition-all shrink-0 shadow-lg shadow-red-600/20"
-          >
-            Secure Your Free Spot <ExternalLink className="h-4 w-4" />
-          </a>
         </div>
       </section>
 
@@ -393,12 +538,16 @@ export default function Register() {
                 const assignment = assignmentMap.get(cellId);
                 const taken = !!assignment?.artist_id;
                 const isSelected = selectedCell === cellId;
+                const isHovered = hoveredCell === cellId;
+                const artistProfile = taken && assignment?.artist_id ? artistProfileMap.get(assignment.artist_id) : undefined;
 
                 return (
                   <button
                     key={cellId}
                     disabled={taken}
                     onClick={() => !taken && handleCellSelect(cellId)}
+                    onMouseEnter={() => taken && setHoveredCell(cellId)}
+                    onMouseLeave={() => setHoveredCell(null)}
                     className={`
                       transition-all duration-200 flex items-center justify-center text-[0.55rem] sm:text-[0.7rem] font-bold relative
                       ${taken
@@ -408,9 +557,12 @@ export default function Register() {
                           : 'grid-cell-available text-white/30 hover:text-white'
                       }
                     `}
-                    title={taken ? `${cellId} — Taken` : `${cellId} — Available`}
+                    title={taken ? `${cellId} — ${artistProfile?.name || 'Taken'}` : `${cellId} — Available`}
                   >
                     <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">{cellId}</span>
+                    {isHovered && taken && artistProfile && (
+                      <ArtistHoverCard artist={artistProfile} cellId={cellId} />
+                    )}
                   </button>
                 );
               })
@@ -442,6 +594,7 @@ export default function Register() {
                 </button>
               </div>
               <CardContent className="p-6 space-y-5">
+                {/* Required fields */}
                 <div className="space-y-2">
                   <Label htmlFor="name" className="text-base font-semibold flex items-center gap-2 text-white/70" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
                     <User className="h-4 w-4 text-white/30" /> Name <span className="text-[#dc2626]">*</span>
@@ -457,7 +610,7 @@ export default function Register() {
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-base font-semibold flex items-center gap-2 text-white/70" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
                     <Mail className="h-4 w-4 text-white/30" /> Email
-                    <span className="text-sm font-normal text-white/30">(for confirmation)</span>
+                    <span className="text-sm font-normal text-white/30">(for confirmation & updates)</span>
                   </Label>
                   <Input
                     id="email"
@@ -481,6 +634,85 @@ export default function Register() {
                     className="h-12 text-base bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20 focus:border-[#dc2626]/50 focus:ring-[#dc2626]/20"
                   />
                 </div>
+
+                {/* Divider */}
+                <div className="border-t border-white/[0.06] pt-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-[#dc2626]/70 font-bold mb-4">Artist Profile (Optional)</p>
+                </div>
+
+                {/* Bio */}
+                <div className="space-y-2">
+                  <Label htmlFor="bio" className="text-base font-semibold flex items-center gap-2 text-white/70" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+                    <Palette className="h-4 w-4 text-white/30" /> Short Bio
+                  </Label>
+                  <Textarea
+                    id="bio"
+                    value={bio}
+                    onChange={e => setBio(e.target.value)}
+                    placeholder="Tell us a little about yourself as an artist..."
+                    maxLength={300}
+                    rows={3}
+                    className="text-base bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20 focus:border-[#dc2626]/50 focus:ring-[#dc2626]/20 resize-none"
+                  />
+                  <p className="text-xs text-white/20 text-right">{bio.length}/300</p>
+                </div>
+
+                {/* Website / Social */}
+                <div className="space-y-2">
+                  <Label htmlFor="website" className="text-base font-semibold flex items-center gap-2 text-white/70" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+                    <Globe className="h-4 w-4 text-white/30" /> Website or Social Media
+                  </Label>
+                  <Input
+                    id="website"
+                    value={website}
+                    onChange={e => setWebsite(e.target.value)}
+                    placeholder="https://yoursite.com or @handle"
+                    className="h-12 text-base bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20 focus:border-[#dc2626]/50 focus:ring-[#dc2626]/20"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="social" className="text-base font-semibold flex items-center gap-2 text-white/70" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+                    <Instagram className="h-4 w-4 text-white/30" /> Social Media Handle
+                  </Label>
+                  <Input
+                    id="social"
+                    value={socialHandle}
+                    onChange={e => setSocialHandle(e.target.value)}
+                    placeholder="@yourusername"
+                    className="h-12 text-base bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20 focus:border-[#dc2626]/50 focus:ring-[#dc2626]/20"
+                  />
+                </div>
+
+                {/* Aviation Connection */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setAviationConnection(!aviationConnection)}
+                      className={`w-6 h-6 border-2 flex items-center justify-center transition-all shrink-0 ${
+                        aviationConnection
+                          ? 'bg-[#dc2626] border-[#dc2626] text-white'
+                          : 'border-white/20 bg-transparent text-transparent hover:border-white/40'
+                      }`}
+                    >
+                      {aviationConnection && <CheckCircle2 className="h-4 w-4" />}
+                    </button>
+                    <Label className="text-base font-semibold text-white/70 cursor-pointer" onClick={() => setAviationConnection(!aviationConnection)} style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+                      <PlaneTakeoff className="h-4 w-4 text-white/30 inline mr-2" />
+                      I have a connection to aviation
+                    </Label>
+                  </div>
+                  {aviationConnection && (
+                    <Input
+                      value={aviationDescription}
+                      onChange={e => setAviationDescription(e.target.value)}
+                      placeholder="Tell us about your aviation connection..."
+                      className="h-12 text-base bg-white/[0.03] border-white/[0.08] text-white placeholder:text-white/20 focus:border-[#dc2626]/50 focus:ring-[#dc2626]/20"
+                    />
+                  )}
+                </div>
+
                 <div className="flex gap-3 pt-2">
                   <Button
                     className="flex-1 h-12 text-lg font-black uppercase tracking-wider btn-neon"
@@ -508,6 +740,62 @@ export default function Register() {
             </Card>
           </div>
         )}
+      </section>
+
+      {/* Pathways to Aviation */}
+      <section className="border-t border-white/[0.05] bg-black">
+        <div className="max-w-5xl mx-auto px-4 py-10">
+          <div className="glass-card p-8 relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#00ccff] via-[#dc2626] to-[#ffcc00]" />
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+              <div className="w-16 h-16 bg-[#00ccff]/10 text-[#00ccff] flex items-center justify-center border border-[#00ccff]/25 shrink-0">
+                <Compass className="h-8 w-8" />
+              </div>
+              <div className="text-center sm:text-left space-y-2 flex-1">
+                <h3 className="text-xl sm:text-2xl font-bold text-white">Pathways to Aviation</h3>
+                <p className="text-base text-white/50 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+                  Inspired by the spirit of flight? Discover your next path in the world of aerospace — from pilot training 
+                  to engineering, drone technology to air traffic control.
+                </p>
+              </div>
+              <a
+                href="https://pathwaystoaviation.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#00ccff]/10 hover:bg-[#00ccff]/20 border border-[#00ccff]/30 text-[#00ccff] font-bold text-base uppercase tracking-wider transition-all shrink-0"
+              >
+                Find Your Path <ExternalLink className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Red, White & Flight CTA Banner — moved to bottom */}
+      <section className="cta-banner">
+        <div className="max-w-5xl mx-auto px-4 py-7 flex flex-col sm:flex-row items-center justify-between gap-5">
+          <div className="flex items-center gap-5">
+            <div className="bg-white rounded-lg p-2 shrink-0 shadow-lg">
+              <img src={rwfLogo} alt="Red, White and Flight" className="h-16 w-auto" />
+            </div>
+            <div>
+              <h3 className="text-white font-bold text-lg sm:text-xl" style={{ fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase' }}>
+                July 4th Drone Show & Concert
+              </h3>
+              <p className="text-white/50 text-base mt-1" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
+                Free event at Mackay Stadium — drone show, Reno Phil concert & interactive expo
+              </p>
+            </div>
+          </div>
+          <a
+            href="https://redwhiteandflight.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#dc2626] hover:bg-[#ef4444] text-white font-bold text-base uppercase tracking-wider transition-all shrink-0 shadow-lg shadow-red-600/20"
+          >
+            Secure Your Free Spot <ExternalLink className="h-4 w-4" />
+          </a>
+        </div>
       </section>
 
       {/* Footer */}

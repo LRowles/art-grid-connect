@@ -1,6 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
 import artownLogo from '@/assets/artown-logo.jpg';
 
+const navLinks = [
+  { to: '/', label: 'Register', match: ['/', '/register'] },
+  { to: '/about', label: 'About', match: ['/about'] },
+  { to: '/events', label: 'Events', match: ['/events'] },
+  { to: '/follow-along', label: 'Follow Along', match: ['/follow-along'] },
+];
+
 export function PublicNav() {
   const location = useLocation();
 
@@ -25,26 +32,19 @@ export function PublicNav() {
           </div>
         </Link>
         <div className="flex items-center gap-1">
-          <Link
-            to="/"
-            className={`px-4 py-2 rounded text-sm font-bold uppercase tracking-wider transition-all duration-200 ${
-              location.pathname === '/' || location.pathname === '/register'
-                ? 'bg-[#dc2626] text-white shadow-md shadow-[#dc2626]/25'
-                : 'text-gray-500 hover:text-[#dc2626] hover:bg-gray-100'
-            }`}
-          >
-            Register
-          </Link>
-          <Link
-            to="/about"
-            className={`px-4 py-2 rounded text-sm font-bold uppercase tracking-wider transition-all duration-200 ${
-              location.pathname === '/about'
-                ? 'bg-[#dc2626] text-white shadow-md shadow-[#dc2626]/25'
-                : 'text-gray-500 hover:text-[#dc2626] hover:bg-gray-100'
-            }`}
-          >
-            About
-          </Link>
+          {navLinks.map(link => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={`px-3 sm:px-4 py-2 rounded text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-200 ${
+                link.match.includes(location.pathname)
+                  ? 'bg-[#dc2626] text-white shadow-md shadow-[#dc2626]/25'
+                  : 'text-gray-500 hover:text-[#dc2626] hover:bg-gray-100'
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
           <Link
             to="/admin"
             className="ml-2 px-3 py-2 rounded text-xs font-medium text-gray-300 hover:text-gray-500 hover:bg-gray-100 transition-all duration-200"

@@ -21,6 +21,12 @@ export type Database = {
           id: string
           name: string
           phone: string | null
+          bio: string | null
+          website: string | null
+          social_handle: string | null
+          aviation_connection: boolean
+          aviation_description: string | null
+          avatar_url: string | null
           updated_at: string
         }
         Insert: {
@@ -29,6 +35,12 @@ export type Database = {
           id?: string
           name: string
           phone?: string | null
+          bio?: string | null
+          website?: string | null
+          social_handle?: string | null
+          aviation_connection?: boolean
+          aviation_description?: string | null
+          avatar_url?: string | null
           updated_at?: string
         }
         Update: {
@@ -37,9 +49,88 @@ export type Database = {
           id?: string
           name?: string
           phone?: string | null
+          bio?: string | null
+          website?: string | null
+          social_handle?: string | null
+          aviation_connection?: boolean
+          aviation_description?: string | null
+          avatar_url?: string | null
           updated_at?: string
         }
         Relationships: []
+      }
+      artist_posts: {
+        Row: {
+          id: string
+          artist_id: string
+          grid_cell: string
+          caption: string | null
+          media_url: string
+          media_type: string
+          created_at: string
+          approved: boolean
+        }
+        Insert: {
+          id?: string
+          artist_id: string
+          grid_cell: string
+          caption?: string | null
+          media_url: string
+          media_type?: string
+          created_at?: string
+          approved?: boolean
+        }
+        Update: {
+          id?: string
+          artist_id?: string
+          grid_cell?: string
+          caption?: string | null
+          media_url?: string
+          media_type?: string
+          created_at?: string
+          approved?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "artist_posts_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "artists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_reminders: {
+        Row: {
+          id: string
+          artist_id: string
+          email_type: string
+          sent_at: string
+          status: string
+        }
+        Insert: {
+          id?: string
+          artist_id: string
+          email_type: string
+          sent_at?: string
+          status?: string
+        }
+        Update: {
+          id?: string
+          artist_id?: string
+          email_type?: string
+          sent_at?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_reminders_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "artists"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       grid_assignments: {
         Row: {
