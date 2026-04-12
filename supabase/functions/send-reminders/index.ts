@@ -195,6 +195,89 @@ function invitationEmail(artistName: string, gridCell: string): { subject: strin
   };
 }
 
+function backupWelcomeEmail(artistName: string, position: number): { subject: string; html: string } {
+  const isPriority = position <= 16;
+  return {
+    subject: `You're #${position} on the Art of Aviation Backup Artist List!`,
+    html: `
+      <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0a; color: #ffffff;">
+        <div style="background: linear-gradient(135deg, #1a0000 0%, #0a0a0a 50%, #000a1a 100%); padding: 40px 30px; text-align: center;">
+          <h1 style="font-size: 28px; font-weight: 900; margin: 0; letter-spacing: -0.5px;">
+            Art of Aviation<br><span style="color: #dc2626;">Community Mural</span>
+          </h1>
+        </div>
+        <div style="padding: 30px;">
+          <h2 style="color: #ffcc00; font-size: 24px; margin: 0 0 16px 0;">You're on the List!</h2>
+          <p style="color: #999; font-size: 16px; line-height: 1.6;">Hi ${artistName},</p>
+          <p style="color: #999; font-size: 16px; line-height: 1.6;">
+            Thank you for joining the backup artist list for the Art of Aviation Community Mural!
+            You are <strong style="color: #ffcc00;">#${position}</strong> on the waitlist${isPriority ? ' — a <strong style="color: #ffcc00;">Priority Backup</strong> artist!' : '.'}
+          </p>
+          <div style="background: rgba(255,204,0,0.08); border: 1px solid rgba(255,204,0,0.2); padding: 20px; margin: 24px 0; text-align: center;">
+            <p style="color: #ffcc00; font-size: 48px; font-weight: 900; margin: 0;">#${position}</p>
+            <p style="color: #999; font-size: 14px; margin: 8px 0 0 0;">${isPriority ? 'Priority Backup — First 16 to be called' : 'General Waitlist'}</p>
+          </div>
+          <p style="color: #999; font-size: 16px; line-height: 1.6;">
+            <strong style="color: #fff;">What happens next:</strong> After the June 22nd deadline, 
+            if any primary artists haven't returned their canvas, we'll contact backup artists in order 
+            to fill those squares.
+          </p>
+          <p style="color: #999; font-size: 16px; line-height: 1.6;">
+            In the meantime, you're still invited to the <strong style="color: #fff;">July 2nd mural unveiling</strong> 
+            at The Discovery Museum — and the <strong style="color: #fff;">July 4th Red, White & Flight</strong> event!
+          </p>
+          <p style="color: #666; font-size: 14px; margin-top: 30px;">
+            — The Art of Aviation Community Mural Team
+          </p>
+        </div>
+      </div>
+    `,
+  };
+}
+
+function backupPromotedEmail(artistName: string, gridCell: string): { subject: string; html: string } {
+  return {
+    subject: `Great News! You've been assigned Square ${gridCell} — Art of Aviation Mural`,
+    html: `
+      <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0a; color: #ffffff;">
+        <div style="background: linear-gradient(135deg, #1a0000 0%, #0a0a0a 50%, #000a1a 100%); padding: 40px 30px; text-align: center;">
+          <h1 style="font-size: 28px; font-weight: 900; margin: 0; letter-spacing: -0.5px;">
+            Art of Aviation<br><span style="color: #dc2626;">Community Mural</span>
+          </h1>
+          <p style="color: #dc2626; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 3px; margin-top: 8px;">
+            You're In!
+          </p>
+        </div>
+        <div style="padding: 30px;">
+          <h2 style="color: #dc2626; font-size: 24px; margin: 0 0 16px 0;">Congratulations, ${artistName}!</h2>
+          <p style="color: #999; font-size: 16px; line-height: 1.6;">
+            A square has opened up and you've been selected from the backup list! 
+            You've been assigned <strong style="color: #fff;">Square ${gridCell}</strong>.
+          </p>
+          <div style="background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.2); padding: 24px; margin: 24px 0; text-align: center;">
+            <p style="color: #dc2626; font-size: 48px; font-weight: 900; margin: 0;">${gridCell}</p>
+            <p style="color: #999; font-size: 14px; margin: 8px 0 0 0;">Your assigned square</p>
+          </div>
+          <p style="color: #999; font-size: 16px; line-height: 1.6;">
+            <strong style="color: #fff;">Next steps:</strong>
+          </p>
+          <ol style="color: #999; font-size: 16px; line-height: 1.8; padding-left: 20px;">
+            <li>Pick up your canvas at <strong style="color: #fff;">The Discovery Museum</strong> (490 S Center St, Reno)</li>
+            <li>Paint your square — match the colors as closely as possible</li>
+            <li>Return your completed canvas as soon as possible</li>
+          </ol>
+          <p style="color: #999; font-size: 16px; line-height: 1.6;">
+            We're thrilled to have you as part of this project. Welcome aboard!
+          </p>
+          <p style="color: #666; font-size: 14px; margin-top: 30px;">
+            — The Art of Aviation Community Mural Team
+          </p>
+        </div>
+      </div>
+    `,
+  };
+}
+
 // ============================================================
 // Send email via Resend API
 // ============================================================
@@ -250,59 +333,110 @@ serve(async (req) => {
     const deadline = new Date("2026-06-22T23:59:59");
     const daysLeft = Math.ceil((deadline.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 
-    for (const assignment of assignments || []) {
-      const artist = (assignment as any).artists;
-      if (!artist?.email) continue;
+    // Handle backup artist emails separately
+    if (email_type === "backup_welcome" || email_type === "backup_promoted") {
+      const { data: backupArtists, error: backupErr } = await supabase
+        .from("backup_artists")
+        .select("*")
+        .order("waitlist_position");
 
-      // Check if we already sent this type of email to this artist
-      const { data: existing } = await supabase
-        .from("email_reminders")
-        .select("id")
-        .eq("artist_id", artist.id)
-        .eq("email_type", email_type)
-        .eq("status", "sent")
-        .limit(1);
+      if (backupErr) throw backupErr;
 
-      if (existing && existing.length > 0) continue; // Already sent
+      for (const ba of backupArtists || []) {
+        if (!ba.email) continue;
 
-      let emailContent: { subject: string; html: string } | null = null;
+        let emailContent: { subject: string; html: string } | null = null;
 
-      switch (email_type) {
-        case "deadline_reminder":
-          // Only send if deadline is in the future and canvas not yet returned
-          if (daysLeft > 0 && assignment.status !== "dropped_off") {
-            emailContent = deadlineReminderEmail(artist.name, assignment.grid_cell, daysLeft);
-          }
-          break;
+        if (email_type === "backup_welcome" && ba.status === "waiting") {
+          // Check if already sent
+          const { data: existing } = await supabase
+            .from("email_reminders")
+            .select("id")
+            .eq("artist_id", ba.id)
+            .eq("email_type", "backup_welcome")
+            .eq("status", "sent")
+            .limit(1);
+          if (existing && existing.length > 0) continue;
+          emailContent = backupWelcomeEmail(ba.name, ba.waitlist_position);
+        } else if (email_type === "backup_promoted" && ba.status === "assigned" && ba.assigned_grid_cell) {
+          const { data: existing } = await supabase
+            .from("email_reminders")
+            .select("id")
+            .eq("artist_id", ba.id)
+            .eq("email_type", "backup_promoted")
+            .eq("status", "sent")
+            .limit(1);
+          if (existing && existing.length > 0) continue;
+          emailContent = backupPromotedEmail(ba.name, ba.assigned_grid_cell);
+        }
 
-        case "thank_you":
-          // Only send to artists who have dropped off their canvas
-          if (assignment.status === "dropped_off") {
-            emailContent = thankYouEmail(artist.name, assignment.grid_cell);
-          }
-          break;
-
-        case "invitation":
-          // Send to all registered artists
-          emailContent = invitationEmail(artist.name, assignment.grid_cell);
-          break;
-
-        default:
-          break;
+        if (emailContent) {
+          const success = await sendEmail(ba.email, emailContent.subject, emailContent.html);
+          await supabase.from("email_reminders").insert({
+            artist_id: ba.id,
+            email_type,
+            status: success ? "sent" : "failed",
+          });
+          if (success) sent++;
+          else failed++;
+        }
       }
+    } else {
+      // Primary artist emails
+      for (const assignment of assignments || []) {
+        const artist = (assignment as any).artists;
+        if (!artist?.email) continue;
 
-      if (emailContent) {
-        const success = await sendEmail(artist.email, emailContent.subject, emailContent.html);
-        
-        // Log the email
-        await supabase.from("email_reminders").insert({
-          artist_id: artist.id,
-          email_type,
-          status: success ? "sent" : "failed",
-        });
+        // Check if we already sent this type of email to this artist
+        const { data: existing } = await supabase
+          .from("email_reminders")
+          .select("id")
+          .eq("artist_id", artist.id)
+          .eq("email_type", email_type)
+          .eq("status", "sent")
+          .limit(1);
 
-        if (success) sent++;
-        else failed++;
+        if (existing && existing.length > 0) continue; // Already sent
+
+        let emailContent: { subject: string; html: string } | null = null;
+
+        switch (email_type) {
+          case "deadline_reminder":
+            // Only send if deadline is in the future and canvas not yet returned
+            if (daysLeft > 0 && assignment.status !== "dropped_off") {
+              emailContent = deadlineReminderEmail(artist.name, assignment.grid_cell, daysLeft);
+            }
+            break;
+
+          case "thank_you":
+            // Only send to artists who have dropped off their canvas
+            if (assignment.status === "dropped_off") {
+              emailContent = thankYouEmail(artist.name, assignment.grid_cell);
+            }
+            break;
+
+          case "invitation":
+            // Send to all registered artists (primary AND backup)
+            emailContent = invitationEmail(artist.name, assignment.grid_cell);
+            break;
+
+          default:
+            break;
+        }
+
+        if (emailContent) {
+          const success = await sendEmail(artist.email, emailContent.subject, emailContent.html);
+          
+          // Log the email
+          await supabase.from("email_reminders").insert({
+            artist_id: artist.id,
+            email_type,
+            status: success ? "sent" : "failed",
+          });
+
+          if (success) sent++;
+          else failed++;
+        }
       }
     }
 
