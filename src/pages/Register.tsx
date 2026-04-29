@@ -361,7 +361,7 @@ export default function Register() {
               <div className="bg-white/[0.03] border border-white/[0.08] p-5 text-base text-white/60 space-y-3">
                 <div className="flex items-center gap-3">
                   <Clock className="h-5 w-5 text-[#dc2626] shrink-0" />
-                  <span>We'll reach out after the <strong className="text-white">June 22nd</strong> deadline if squares are available</span>
+                  <span>We'll reach out after the <strong className="text-white">June 15th</strong> deadline if squares are available</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Star className="h-5 w-5 text-[#dc2626] shrink-0" />
@@ -457,7 +457,7 @@ export default function Register() {
                 </div>
                 <div className="flex items-center gap-3">
                   <Calendar className="h-5 w-5 text-[#dc2626] shrink-0" />
-                  <span>Available after <strong className="text-white">May 1</strong> — due <strong className="text-white">June 22</strong></span>
+                  <span>Pickup <strong className="text-white">May 1 – June 1</strong> — due back <strong className="text-white">June 15</strong></span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Star className="h-5 w-5 text-[#dc2626] shrink-0" />
@@ -533,6 +533,9 @@ export default function Register() {
             Art of Aviation<br />
             <span className="text-[#dc2626]">Community Mural</span>
           </h1>
+          <p className="text-xl sm:text-2xl text-white/60 font-medium -mt-2" style={{ fontFamily: 'Oswald, sans-serif' }}>
+            of the 2026 Artown Festival Artwork
+          </p>
           <p className="text-lg sm:text-xl text-white/50 leading-relaxed max-w-2xl mx-auto" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
             Join us in creating a collaborative mural celebrating Northern Nevada's pioneering spirit
             in aviation. Select a square, paint your masterpiece, and become part of history.
@@ -664,15 +667,16 @@ export default function Register() {
           <div className="grid sm:grid-cols-2 gap-5">
             {[
               { step: '1', text: 'Select an available square below and register with your name and contact info.' },
-              { step: '2', text: 'Pick up your canvas at The Discovery after May 1.' },
+              { step: '2', text: 'Pick up your canvas at The Discovery between May 1 and June 1.' },
               { step: '3', text: 'Paint your square — any material welcome, match colors as closely as possible.' },
-              { step: '4', text: 'Return your completed square by Monday, June 22nd.' },
+              { step: '4', text: 'IMPORTANT: On the back of your canvas, write your square number (e.g. H2), your first and last name, and mark “TOP” at the top edge.' },
+              { step: '5', text: 'Return your completed square to The Discovery by Sunday, June 15th.' },
             ].map(d => (
               <div key={d.step} className="flex items-start gap-3">
                 <span className="w-8 h-8 bg-[#dc2626]/15 text-[#dc2626] flex items-center justify-center text-sm font-black shrink-0 mt-0.5 border border-[#dc2626]/30">
                   {d.step}
                 </span>
-                <p className="text-base text-white/50 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>{d.text}</p>
+                <p className={`text-base leading-relaxed ${d.step === '4' ? 'text-[#dc2626]/90 font-semibold' : 'text-white/50'}`} style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>{d.text}</p>
               </div>
             ))}
           </div>

@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
-import { LayoutGrid, Users, LogOut, Plane, ExternalLink } from 'lucide-react';
+import { LayoutGrid, Users, LogOut, Plane, ExternalLink, ClipboardList } from 'lucide-react';
 
 export function AppLayout({ children }: { children: ReactNode }) {
   const { signOut } = useAuth();
@@ -11,6 +11,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const navItems = [
     { to: '/admin', label: 'Grid', icon: LayoutGrid },
     { to: '/admin/artists', label: 'Artists', icon: Users },
+    { to: '/admin/tracking', label: 'Tracking', icon: ClipboardList },
   ];
 
   return (

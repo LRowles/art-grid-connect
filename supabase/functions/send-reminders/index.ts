@@ -2,8 +2,8 @@
 // Triggered by pg_cron or manual invocation to send timed emails to artists
 //
 // Email types:
-//   - deadline_reminder: Sent ~2 weeks before June 22 deadline (around June 8)
-//   - deadline_final: Sent ~3 days before deadline (around June 19)
+//   - deadline_reminder: Sent ~2 weeks before June 15 deadline (around June 8)
+//   - deadline_final: Sent ~3 days before deadline (around June 12)
 //   - thank_you: Sent after artist drops off their canvas (status = 'dropped_off')
 //   - invitation: Sent to all artists inviting them to the July 2nd reveal party
 //
@@ -42,7 +42,7 @@ function deadlineReminderEmail(artistName: string, gridCell: string, daysLeft: n
           <p style="color: #999; font-size: 16px; line-height: 1.6;">
             This is a friendly reminder that your canvas for <strong style="color: #fff;">Square ${gridCell}</strong> 
             is due back at <strong style="color: #fff;">The Discovery</strong> by 
-            <strong style="color: #dc2626;">Monday, June 22nd</strong>.
+            <strong style="color: #dc2626;">Sunday, June 15th</strong>.
           </p>
           <div style="background: rgba(220,38,38,0.1); border-left: 4px solid #dc2626; padding: 16px 20px; margin: 24px 0;">
             <p style="color: #fff; font-size: 18px; font-weight: bold; margin: 0;">
@@ -52,6 +52,9 @@ function deadlineReminderEmail(artistName: string, gridCell: string, daysLeft: n
               Drop off at The Discovery, 490 S Center St, Reno, NV
             </p>
           </div>
+          <p style="color: #dc2626; font-size: 16px; line-height: 1.6; padding: 12px 16px; background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.3); border-radius: 6px; margin: 20px 0;">
+            <strong>IMPORTANT:</strong> Before returning your canvas, please write your square number (${gridCell}), your first and last name, and mark “TOP” on the back at the top edge.
+          </p>
           <p style="color: #999; font-size: 16px; line-height: 1.6;">
             Your square is an essential piece of this collaborative masterpiece. We can't wait to see 
             your finished work assembled into the final mural!
@@ -218,7 +221,7 @@ function backupWelcomeEmail(artistName: string, position: number): { subject: st
             <p style="color: #999; font-size: 14px; margin: 8px 0 0 0;">${isPriority ? 'Priority Backup — First 16 to be called' : 'General Waitlist'}</p>
           </div>
           <p style="color: #999; font-size: 16px; line-height: 1.6;">
-            <strong style="color: #fff;">What happens next:</strong> After the June 22nd deadline, 
+            <strong style="color: #fff;">What happens next:</strong> After the June 15th deadline, 
             if any primary artists haven't returned their canvas, we'll contact backup artists in order 
             to fill those squares.
           </p>

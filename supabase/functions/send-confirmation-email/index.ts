@@ -264,10 +264,11 @@ function buildEmailHtml(name: string, cell: string, imageUrl: string): string {
     </div>
     <div style="background: #f0f4f8; border-radius: 8px; padding: 20px; margin: 20px 0;">
       <h3 style="color: #1e3a5f; margin: 0 0 12px;">Next Steps</h3>
-      <p style="color: #555; margin: 6px 0;">1. Pick up your canvas at <strong>The Discovery</strong> after May 1</p>
-      <p style="color: #555; margin: 6px 0;">2. Paint your square - any material welcome, match colors as closely as possible</p>
-      <p style="color: #555; margin: 6px 0;">3. Return your completed square by <strong>Monday, June 22nd</strong></p>
-      <p style="color: #555; margin: 6px 0;">4. Join us for a community reception and <strong>Artown Kickoff</strong> the evening of <strong>July 2nd</strong> at The Discovery, where we will unveil the final mural!</p>
+      <p style="color: #555; margin: 6px 0;">1. Pick up your canvas at <strong>The Discovery</strong> between <strong>May 1 and June 1</strong></p>
+      <p style="color: #555; margin: 6px 0;">2. Paint your square — any material welcome, match colors as closely as possible</p>
+      <p style="color: #dc2626; margin: 10px 0; padding: 10px; background: #fff5f5; border: 1px solid #dc2626; border-radius: 6px; font-weight: bold;">3. IMPORTANT: On the BACK of your canvas, write your square number (${cell}), your first and last name, and mark “TOP” at the top edge.</p>
+      <p style="color: #555; margin: 6px 0;">4. Return your completed square to The Discovery by <strong>Sunday, June 15th</strong></p>
+      <p style="color: #555; margin: 6px 0;">5. Join us for a community reception and <strong>Artown Kickoff</strong> the evening of <strong>July 2nd</strong> at The Discovery, where we will unveil the final mural!</p>
     </div>
     <p style="color: #555;">If you have any questions, please do not hesitate to reach out.</p>
     <p style="color: #555;">Thank you for being part of something extraordinary!</p>

@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Artists from "./pages/Artists";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import Tracking from "./pages/Tracking";
 import Register from "./pages/Register";
 import About from "./pages/About";
 import Events from "./pages/Events";
@@ -32,6 +33,7 @@ function ProtectedRoutes() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/artists" element={<Artists />} />
+        <Route path="/tracking" element={<Tracking />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AppLayout>

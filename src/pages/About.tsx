@@ -182,8 +182,8 @@ export default function About() {
               },
               {
                 icon: <MapPin className="h-5 w-5" />,
-                title: 'Pick Up Your Canvas',
-                desc: 'After May 1st, pick up your pre-cut canvas square at The Discovery. Each square comes with a reference image.',
+                title: 'Pick Up Your Canvas (May 1 – June 1)',
+                desc: 'Pick up your pre-cut canvas square at The Discovery between May 1 and June 1. Each square comes with a reference image.',
               },
               {
                 icon: <Star className="h-5 w-5" />,
@@ -191,18 +191,24 @@ export default function About() {
                 desc: 'Use any painting materials you prefer. Try to match the colors of your reference image as closely as possible.',
               },
               {
+                icon: <Compass className="h-5 w-5" />,
+                title: 'Label Your Canvas (Important!)',
+                desc: 'On the BACK of your canvas, write your square number (e.g. H2), your first and last name, and mark \u201cTOP\u201d at the top edge. This is critical for assembly.',
+                highlight: true,
+              },
+              {
                 icon: <Calendar className="h-5 w-5" />,
-                title: 'Return by June 22',
-                desc: 'Drop off your completed square at The Discovery by Monday, June 22nd so it can be assembled into the final mural.',
+                title: 'Return by June 15',
+                desc: 'Drop off your completed square at The Discovery by Sunday, June 15th so it can be assembled into the final mural.',
               },
             ].map((item, i) => (
-              <div key={i} className="flex items-start gap-4 p-5 bg-white/[0.02] border border-white/[0.05]">
+              <div key={i} className={`flex items-start gap-4 p-5 border ${(item as any).highlight ? 'bg-[#dc2626]/[0.08] border-[#dc2626]/30' : 'bg-white/[0.02] border-white/[0.05]'}`}>
                 <span className="w-10 h-10 bg-[#dc2626]/10 text-[#dc2626] flex items-center justify-center shrink-0 border border-[#dc2626]/20">
                   {item.icon}
                 </span>
                 <div>
                   <h3 className="font-bold text-white text-base mb-1" style={{ fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase' }}>{item.title}</h3>
-                  <p className="text-white/40 text-base leading-relaxed" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>{item.desc}</p>
+                  <p className={`text-base leading-relaxed ${(item as any).highlight ? 'text-[#dc2626]/80 font-medium' : 'text-white/40'}`} style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>{item.desc}</p>
                 </div>
               </div>
             ))}
