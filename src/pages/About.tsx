@@ -6,6 +6,7 @@ import socLogo from '@/assets/soc-logo.png';
 import discoveryLogo from '@/assets/discovery-logo.jpg';
 import rwfLogo from '@/assets/rwf-logo.png';
 import muralArtwork from '@/assets/mural-artwork.png';
+import gillemotLogo from '@/assets/gillemot-logo-white.png';
 
 export default function About() {
   return (
@@ -279,10 +280,7 @@ export default function About() {
             <div className="absolute top-0 left-0 right-0 h-1 bg-[#dc2626]" />
             <div className="text-center space-y-4">
               <p className="text-xs uppercase tracking-[0.25em] text-[#dc2626] font-bold">Key Funder</p>
-              <div className="w-16 h-16 bg-[#dc2626]/10 text-[#dc2626] flex items-center justify-center mx-auto border border-[#dc2626]/20">
-                <Plane className="h-8 w-8" />
-              </div>
-              <h3 className="text-2xl font-bold text-white">The George W. Gillemot Foundation</h3>
+              <img src={gillemotLogo} alt="The George W. Gillemot Foundation" className="h-16 sm:h-20 w-auto mx-auto" />
               <p className="text-base text-white/50 leading-relaxed max-w-xl mx-auto" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
                 The George W. Gillemot Foundation funded the original professional mural artwork that serves as the
                 foundation for this community project. Their commitment to supporting aviation education and innovation
@@ -343,6 +341,7 @@ export default function About() {
         <div className="artown-dash w-full" />
         <div className="max-w-5xl mx-auto px-4 py-10">
           <div className="flex flex-wrap justify-center gap-8 sm:gap-12 items-center mb-6">
+            <img src={gillemotLogo} alt="The George W. Gillemot Foundation" className="h-10 w-auto opacity-70" />
             <img src={artownLogo} alt="Artown" className="h-10 w-auto opacity-70" />
             <img src={discoveryLogo} alt="The Discovery Museum" className="h-9 w-auto opacity-70" />
             <img src={socLogo} alt="Strengthen our Community" className="h-9 w-auto opacity-70 bg-white/80 px-2 py-0.5" />

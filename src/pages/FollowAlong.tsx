@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import artownLogo from '@/assets/artown-logo.jpg';
 import socLogo from '@/assets/soc-logo.png';
 import discoveryLogo from '@/assets/discovery-logo.jpg';
+import gillemotLogo from '@/assets/gillemot-logo-white.png';
 
 type ArtistPost = {
   id: string;
@@ -543,6 +544,7 @@ export default function FollowAlong() {
         <div className="artown-dash w-full" />
         <div className="max-w-5xl mx-auto px-4 py-10">
           <div className="flex flex-wrap justify-center gap-8 sm:gap-12 items-center mb-6">
+            <img src={gillemotLogo} alt="The George W. Gillemot Foundation" className="h-10 w-auto opacity-70" />
             <img src={artownLogo} alt="Artown" className="h-10 w-auto opacity-70" />
             <img src={discoveryLogo} alt="The Discovery Museum" className="h-9 w-auto opacity-70" />
             <img src={socLogo} alt="Strengthen our Community" className="h-9 w-auto opacity-70 bg-white/80 px-2 py-0.5" />
