@@ -14,6 +14,7 @@ import Register from "./pages/Register";
 import About from "./pages/About";
 import Events from "./pages/Events";
 import FollowAlong from "./pages/FollowAlong";
+import Dropoff from "./pages/Dropoff";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,7 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/events" element={<Events />} />
             <Route path="/follow-along" element={<FollowAlong />} />
+            <Route path="/dropoff" element={<Dropoff />} />
             <Route path="/admin/*" element={<ProtectedRoutes />} />
           </Routes>
         </BrowserRouter>
