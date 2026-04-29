@@ -69,6 +69,19 @@ export default function About() {
             />
           </div>
           
+          {/* Artist Interview Video */}
+          <div className="p-8 pb-0">
+            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+              <iframe
+                className="absolute top-0 left-0 w-full h-full border border-white/[0.08]"
+                src="https://www.youtube.com/embed/I_BLYLkRtQI"
+                title="Interview with Reilly Moss — 2026 Poster Artist"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </div>
+
           <div className="p-8 space-y-6">
             <div className="flex items-center gap-3">
               <span className="w-11 h-11 bg-[#dc2626]/15 text-[#dc2626] flex items-center justify-center border border-[#dc2626]/25">
@@ -113,7 +126,7 @@ export default function About() {
 
               <p className="text-base text-white/50 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
                 As the sky deepens, the mural transitions into a dreamlike atmosphere, illuminated by lanterns
-                and drones that perform a light show, forming the word "HOME." A rocket and satellite propel 
+                and drones that perform a light show, forming the shape of Nevada — home. A rocket and satellite propel 
                 the narrative into the future, symbolizing continued exploration beyond Earth. Anchoring the scene 
                 is a young girl holding a paper airplane toward the sky, embodying curiosity, possibility, and the 
                 generational passing of dreams. An eagle watches over the composition — representing freedom, 

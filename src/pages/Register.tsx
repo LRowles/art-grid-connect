@@ -622,9 +622,18 @@ export default function Register() {
               <p className="text-xs uppercase tracking-[0.25em] text-[#dc2626] font-bold">Meet the Artist</p>
               <h3 className="text-2xl sm:text-3xl font-bold text-white">Reilly Moss</h3>
               <p className="text-base text-white/50 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
-                "A Sky Written by Dreamers" — a sweeping panorama where America's story of flight unfolds 
-                through the Northern Nevada sky, blending past, present, and future into a powerful symbol of possibility.
+                "A Sky Written by Dreamers" honors the United States' 250th anniversary — a reflection on the nation's enduring spirit of innovation, freedom, and exploration, viewed through the lens of Northern Nevada.
               </p>
+              {/* Artist Interview Video */}
+              <div className="relative w-full mt-4" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full border border-white/[0.08]"
+                  src="https://www.youtube.com/embed/I_BLYLkRtQI"
+                  title="Interview with Reilly Moss — 2026 Poster Artist"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
               <div className="flex flex-wrap gap-3 justify-center sm:justify-start">
                 <a href="https://www.reillymoss.com" target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-sm text-white/50 hover:text-white transition-colors"

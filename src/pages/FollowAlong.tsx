@@ -353,6 +353,25 @@ export default function FollowAlong() {
         </div>
       )}
 
+      {/* Featured Video — Artist Interview */}
+      <section className="max-w-4xl mx-auto px-4 pt-12 pb-6">
+        <div className="glass-card overflow-hidden">
+          <div className="p-5 border-b border-white/[0.05]">
+            <p className="text-xs uppercase tracking-[0.25em] text-[#dc2626] font-bold">Featured</p>
+            <h3 className="text-xl font-bold text-white mt-1">Interview with Reilly Moss — 2026 Poster Artist</h3>
+          </div>
+          <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+            <iframe
+              className="absolute top-0 left-0 w-full h-full"
+              src="https://www.youtube.com/embed/I_BLYLkRtQI"
+              title="Interview with Reilly Moss — 2026 Poster Artist"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Content */}
       <section className="max-w-6xl mx-auto px-4 py-12">
         
