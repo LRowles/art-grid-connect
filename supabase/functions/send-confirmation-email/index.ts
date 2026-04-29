@@ -264,7 +264,7 @@ function buildEmailHtml(name: string, cell: string, imageUrl: string): string {
     </div>
     <div style="background: #f0f4f8; border-radius: 8px; padding: 20px; margin: 20px 0;">
       <h3 style="color: #1e3a5f; margin: 0 0 12px;">Next Steps</h3>
-      <p style="color: #555; margin: 6px 0;">1. Pick up your canvas at <strong>The Discovery Museum</strong> after May 1</p>
+      <p style="color: #555; margin: 6px 0;">1. Pick up your canvas at <strong>The Discovery</strong> after May 1</p>
       <p style="color: #555; margin: 6px 0;">2. Paint your square - any material welcome, match colors as closely as possible</p>
       <p style="color: #555; margin: 6px 0;">3. Return your completed square by <strong>Monday, June 22nd</strong></p>
       <p style="color: #555; margin: 6px 0;">4. Join us for a community reception and <strong>Artown Kickoff</strong> the evening of <strong>July 2nd</strong> at The Discovery, where we will unveil the final mural!</p>
@@ -274,7 +274,7 @@ function buildEmailHtml(name: string, cell: string, imageUrl: string): string {
   </div>
   <div style="background: #1e3a5f; padding: 20px; text-align: center; border-radius: 0 0 12px 12px;">
     <p style="color: #a0c4e8; margin: 0; font-size: 13px;">Art of Aviation Community Mural Team</p>
-    <p style="color: #6b8db5; margin: 5px 0 0; font-size: 11px;">Presented by Artown, The Discovery Museum, The George W. Gillemot Foundation and Strengthen our Community</p>
+    <p style="color: #6b8db5; margin: 5px 0 0; font-size: 11px;">Presented by Artown, The Discovery, The George W. Gillemot Foundation and Strengthen our Community</p>
   </div>
 </div>`.trim();
 }

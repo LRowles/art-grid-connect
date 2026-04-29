@@ -13,7 +13,7 @@ const events = [
     date: 'May 1, 2026',
     dateShort: 'MAY 1',
     title: 'Canvas Pickup Begins',
-    location: 'The Discovery Museum',
+    location: 'The Discovery',
     description: 'Registered artists can begin picking up their pre-cut canvas squares along with a reference image of their assigned section. Each canvas is ready to paint — bring your creativity and any painting materials you prefer.',
     icon: <Star className="h-6 w-6" />,
     color: '#ffcc00',
@@ -25,8 +25,8 @@ const events = [
     date: 'June 22, 2026',
     dateShort: 'JUN 22',
     title: 'Canvas Return Deadline',
-    location: 'The Discovery Museum',
-    description: 'All completed canvas squares must be returned to The Discovery Museum by this date. This gives the team time to assemble all 234 squares into the final collaborative mural before the unveiling.',
+    location: 'The Discovery',
+    description: 'All completed canvas squares must be returned to The Discovery by this date. This gives the team time to assemble all 234 squares into the final collaborative mural before the unveiling.',
     icon: <Calendar className="h-6 w-6" />,
     color: '#dc2626',
     highlight: true,
@@ -36,7 +36,7 @@ const events = [
     date: 'July 2, 2026',
     dateShort: 'JUL 2',
     title: 'Community Reception & Artown Kickoff',
-    location: 'The Discovery Museum',
+    location: 'The Discovery',
     time: 'Evening',
     description: 'Join us for a community reception and the official Artown Kickoff! We will unveil the completed Art of Aviation Community Mural assembled from all 234 artist squares. Celebrate with fellow artists, community members, and partners as we reveal this collaborative masterpiece. The mural will serve as the entrance centerpiece to The Discovery\'s new aviation-themed exhibition.',
     icon: <Music className="h-6 w-6" />,
@@ -51,8 +51,8 @@ const events = [
     date: 'July 2, 2026 — Ongoing',
     dateShort: 'JUL 2+',
     title: 'Aviation Exhibition at The Discovery',
-    location: 'The Discovery Museum',
-    description: 'The Discovery Museum opens its new aviation-themed exhibition, with the Art of Aviation Community Mural as the entrance centerpiece. Explore interactive exhibits celebrating the history of flight, Northern Nevada\'s aviation heritage, and the future of aerospace. The exhibition features hands-on activities for all ages, connecting art, science, and the spirit of exploration.',
+    location: 'The Discovery',
+    description: 'The Discovery opens its new aviation-themed exhibition, with the Art of Aviation Community Mural as the entrance centerpiece. Explore interactive exhibits celebrating the history of flight, Northern Nevada\'s aviation heritage, and the future of aerospace. The exhibition features hands-on activities for all ages, connecting art, science, and the spirit of exploration.',
     icon: <Plane className="h-6 w-6" />,
     color: '#00ccff',
     featured: true,
@@ -221,7 +221,7 @@ export default function Events() {
           <div className="flex flex-wrap justify-center gap-8 sm:gap-12 items-center mb-6">
             <img src={gillemotLogo} alt="The George W. Gillemot Foundation" className="h-10 w-auto opacity-70" />
             <img src={artownLogo} alt="Artown" className="h-10 w-auto opacity-70" />
-            <img src={discoveryLogo} alt="The Discovery Museum" className="h-9 w-auto opacity-70" />
+            <img src={discoveryLogo} alt="The Discovery" className="h-9 w-auto opacity-70" />
             <img src={socLogo} alt="Strengthen our Community" className="h-9 w-auto opacity-70 bg-white/80 px-2 py-0.5" />
           </div>
           <div className="text-center space-y-2">
@@ -229,7 +229,7 @@ export default function Events() {
               Art of Aviation Community Mural — A Reno 250 Celebration
             </p>
             <p className="text-sm text-white/20" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
-              Presented by The George W. Gillemot Foundation, Artown, The Discovery Museum & Strengthen our Community
+              Presented by The George W. Gillemot Foundation, Artown, The Discovery & Strengthen our Community
             </p>
           </div>
         </div>

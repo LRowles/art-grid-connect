@@ -565,7 +565,7 @@ export default function FollowAlong() {
           <div className="flex flex-wrap justify-center gap-8 sm:gap-12 items-center mb-6">
             <img src={gillemotLogo} alt="The George W. Gillemot Foundation" className="h-10 w-auto opacity-70" />
             <img src={artownLogo} alt="Artown" className="h-10 w-auto opacity-70" />
-            <img src={discoveryLogo} alt="The Discovery Museum" className="h-9 w-auto opacity-70" />
+            <img src={discoveryLogo} alt="The Discovery" className="h-9 w-auto opacity-70" />
             <img src={socLogo} alt="Strengthen our Community" className="h-9 w-auto opacity-70 bg-white/80 px-2 py-0.5" />
           </div>
           <div className="text-center space-y-2">
@@ -573,7 +573,7 @@ export default function FollowAlong() {
               Art of Aviation Community Mural — A Reno 250 Celebration
             </p>
             <p className="text-sm text-white/20" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
-              Presented by The George W. Gillemot Foundation, Artown, The Discovery Museum & Strengthen our Community
+              Presented by The George W. Gillemot Foundation, Artown, The Discovery & Strengthen our Community
             </p>
           </div>
         </div>

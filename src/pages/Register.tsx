@@ -453,7 +453,7 @@ export default function Register() {
               <div className="bg-white/[0.03] border border-white/[0.08] p-5 text-base text-white/60 space-y-3">
                 <div className="flex items-center gap-3">
                   <MapPin className="h-5 w-5 text-[#dc2626] shrink-0" />
-                  <span>Pick up your canvas at <strong className="text-white">The Discovery Museum</strong></span>
+                  <span>Pick up your canvas at <strong className="text-white">The Discovery</strong></span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Calendar className="h-5 w-5 text-[#dc2626] shrink-0" />
@@ -600,7 +600,7 @@ export default function Register() {
           {/* Partner logos */}
           <div className="flex flex-wrap justify-center gap-8 sm:gap-12 items-center">
             <img src={artownLogo} alt="Artown" className="h-12 w-auto opacity-90 hover:opacity-100 transition-opacity" />
-            <img src={discoveryLogo} alt="The Discovery Museum" className="h-10 w-auto opacity-90 hover:opacity-100 transition-opacity" />
+            <img src={discoveryLogo} alt="The Discovery" className="h-10 w-auto opacity-90 hover:opacity-100 transition-opacity" />
             <img src={socLogo} alt="Strengthen our Community" className="h-10 w-auto opacity-90 hover:opacity-100 transition-opacity bg-white/90 px-2 py-1" />
           </div>
           <div className="text-center mt-5">
@@ -664,7 +664,7 @@ export default function Register() {
           <div className="grid sm:grid-cols-2 gap-5">
             {[
               { step: '1', text: 'Select an available square below and register with your name and contact info.' },
-              { step: '2', text: 'Pick up your canvas at The Discovery Museum after May 1.' },
+              { step: '2', text: 'Pick up your canvas at The Discovery after May 1.' },
               { step: '3', text: 'Paint your square — any material welcome, match colors as closely as possible.' },
               { step: '4', text: 'Return your completed square by Monday, June 22nd.' },
             ].map(d => (
@@ -1173,7 +1173,7 @@ export default function Register() {
           <div className="flex flex-wrap justify-center gap-8 sm:gap-12 items-center mb-6">
             <img src={gillemotLogo} alt="The George W. Gillemot Foundation" className="h-10 w-auto opacity-70" />
             <img src={artownLogo} alt="Artown" className="h-10 w-auto opacity-70" />
-            <img src={discoveryLogo} alt="The Discovery Museum" className="h-9 w-auto opacity-70" />
+            <img src={discoveryLogo} alt="The Discovery" className="h-9 w-auto opacity-70" />
             <img src={socLogo} alt="Strengthen our Community" className="h-9 w-auto opacity-70 bg-white/80 px-2 py-0.5" />
           </div>
           <div className="text-center space-y-2">
@@ -1181,7 +1181,7 @@ export default function Register() {
               Art of Aviation Community Mural — A Reno 250 Celebration
             </p>
             <p className="text-sm text-white/20" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
-              Presented by The George W. Gillemot Foundation, Artown, The Discovery Museum & Strengthen our Community
+              Presented by The George W. Gillemot Foundation, Artown, The Discovery & Strengthen our Community
             </p>
           </div>
         </div>

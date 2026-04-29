@@ -50,7 +50,7 @@ export default function About() {
           </p>
           <p className="text-lg text-white/50 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
             The completed mural will be installed and on display at{' '}
-            <strong className="text-white">The Discovery Museum</strong>, serving as the entrance
+            <strong className="text-white">The Discovery</strong>, serving as the entrance
             centerpiece to a new aviation-themed exhibition and helping build excitement for the inaugural{' '}
             <strong className="text-[#dc2626]">Red, White, and Flight</strong> drone show and concert event.
           </p>
@@ -183,7 +183,7 @@ export default function About() {
               {
                 icon: <MapPin className="h-5 w-5" />,
                 title: 'Pick Up Your Canvas',
-                desc: 'After May 1st, pick up your pre-cut canvas square at The Discovery Museum. Each square comes with a reference image.',
+                desc: 'After May 1st, pick up your pre-cut canvas square at The Discovery. Each square comes with a reference image.',
               },
               {
                 icon: <Star className="h-5 w-5" />,
@@ -193,7 +193,7 @@ export default function About() {
               {
                 icon: <Calendar className="h-5 w-5" />,
                 title: 'Return by June 22',
-                desc: 'Drop off your completed square at The Discovery Museum by Monday, June 22nd so it can be assembled into the final mural.',
+                desc: 'Drop off your completed square at The Discovery by Monday, June 22nd so it can be assembled into the final mural.',
               },
             ].map((item, i) => (
               <div key={i} className="flex items-start gap-4 p-5 bg-white/[0.02] border border-white/[0.05]">
@@ -220,7 +220,7 @@ export default function About() {
           </div>
           <p className="text-lg text-white/50 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
             Join us for a community reception and Artown Kickoff on the evening of <strong className="text-white">July 2nd</strong> at{' '}
-            <strong className="text-white">The Discovery Museum</strong>, where we will unveil the final assembled mural.
+            <strong className="text-white">The Discovery</strong>, where we will unveil the final assembled mural.
             Celebrate with fellow artists and community members as we reveal this collaborative masterpiece!
           </p>
           <Link
@@ -316,8 +316,8 @@ export default function About() {
 
             {/* The Discovery */}
             <div className="glass-card p-6 flex flex-col items-center text-center space-y-3">
-              <img src={discoveryLogo} alt="The Discovery Museum" className="h-16 w-auto" />
-              <h3 className="font-bold text-white text-lg">The Discovery Museum</h3>
+              <img src={discoveryLogo} alt="The Discovery" className="h-16 w-auto" />
+              <h3 className="font-bold text-white text-lg">The Discovery</h3>
               <p className="text-white/40 text-base leading-relaxed" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
                 Hosting the event and showcasing the completed mural, The Discovery creates an
                 interactive gateway into an aviation-themed exhibit that celebrates exploration,
@@ -356,7 +356,7 @@ export default function About() {
           <div className="flex flex-wrap justify-center gap-8 sm:gap-12 items-center mb-6">
             <img src={gillemotLogo} alt="The George W. Gillemot Foundation" className="h-10 w-auto opacity-70" />
             <img src={artownLogo} alt="Artown" className="h-10 w-auto opacity-70" />
-            <img src={discoveryLogo} alt="The Discovery Museum" className="h-9 w-auto opacity-70" />
+            <img src={discoveryLogo} alt="The Discovery" className="h-9 w-auto opacity-70" />
             <img src={socLogo} alt="Strengthen our Community" className="h-9 w-auto opacity-70 bg-white/80 px-2 py-0.5" />
           </div>
           <div className="text-center space-y-2">
@@ -364,7 +364,7 @@ export default function About() {
               Art of Aviation Community Mural — A Reno 250 Celebration
             </p>
             <p className="text-sm text-white/20" style={{ fontFamily: 'Inter, sans-serif', textTransform: 'none', letterSpacing: 'normal' }}>
-              Presented by The George W. Gillemot Foundation, Artown, The Discovery Museum & Strengthen our Community
+              Presented by The George W. Gillemot Foundation, Artown, The Discovery & Strengthen our Community
             </p>
           </div>
         </div>

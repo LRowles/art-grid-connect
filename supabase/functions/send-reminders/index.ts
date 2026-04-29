@@ -41,7 +41,7 @@ function deadlineReminderEmail(artistName: string, gridCell: string, daysLeft: n
           <p style="color: #999; font-size: 16px; line-height: 1.6;">Hi ${artistName},</p>
           <p style="color: #999; font-size: 16px; line-height: 1.6;">
             This is a friendly reminder that your canvas for <strong style="color: #fff;">Square ${gridCell}</strong> 
-            is due back at <strong style="color: #fff;">The Discovery Museum</strong> by 
+            is due back at <strong style="color: #fff;">The Discovery</strong> by 
             <strong style="color: #dc2626;">Monday, June 22nd</strong>.
           </p>
           <div style="background: rgba(220,38,38,0.1); border-left: 4px solid #dc2626; padding: 16px 20px; margin: 24px 0;">
@@ -49,7 +49,7 @@ function deadlineReminderEmail(artistName: string, gridCell: string, daysLeft: n
               ${daysLeft} days remaining
             </p>
             <p style="color: #999; font-size: 14px; margin: 8px 0 0 0;">
-              Drop off at The Discovery Museum, 490 S Center St, Reno, NV
+              Drop off at The Discovery, 490 S Center St, Reno, NV
             </p>
           </div>
           <p style="color: #999; font-size: 16px; line-height: 1.6;">
@@ -87,7 +87,7 @@ function thankYouEmail(artistName: string, gridCell: string): { subject: string;
           </p>
           <p style="color: #999; font-size: 16px; line-height: 1.6;">
             Your square will be carefully assembled alongside 233 other pieces to create the final 
-            Art of Aviation Community Mural, which will be displayed at The Discovery Museum.
+            Art of Aviation Community Mural, which will be displayed at The Discovery.
           </p>
           <div style="background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.2); padding: 20px; margin: 24px 0; text-align: center;">
             <p style="color: #fff; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 8px 0;">
@@ -97,7 +97,7 @@ function thankYouEmail(artistName: string, gridCell: string): { subject: string;
               July 2nd — Mural Unveiling
             </p>
             <p style="color: #999; font-size: 14px; margin: 8px 0 0 0;">
-              Community Reception & Artown Kickoff at The Discovery Museum
+              Community Reception & Artown Kickoff at The Discovery
             </p>
           </div>
           <p style="color: #999; font-size: 16px; line-height: 1.6;">
@@ -155,7 +155,7 @@ function invitationEmail(artistName: string, gridCell: string): { subject: strin
               </tr>
               <tr>
                 <td style="color: #dc2626; font-weight: bold; font-size: 14px; padding: 8px 0; vertical-align: top;">VENUE</td>
-                <td style="color: #fff; font-size: 16px; padding: 8px 0;">The Discovery Museum<br><span style="color: #999; font-size: 14px;">490 S Center St, Reno, NV 89501</span></td>
+                <td style="color: #fff; font-size: 16px; padding: 8px 0;">The Discovery<br><span style="color: #999; font-size: 14px;">490 S Center St, Reno, NV 89501</span></td>
               </tr>
             </table>
           </div>
@@ -187,7 +187,7 @@ function invitationEmail(artistName: string, gridCell: string): { subject: strin
           <p style="color: #666; font-size: 14px; margin-top: 30px;">
             With gratitude,<br>
             — The Art of Aviation Community Mural Team<br>
-            <span style="font-size: 12px;">Presented by The George W. Gillemot Foundation, Artown, The Discovery Museum & Strengthen our Community</span>
+            <span style="font-size: 12px;">Presented by The George W. Gillemot Foundation, Artown, The Discovery & Strengthen our Community</span>
           </p>
         </div>
       </div>
@@ -224,7 +224,7 @@ function backupWelcomeEmail(artistName: string, position: number): { subject: st
           </p>
           <p style="color: #999; font-size: 16px; line-height: 1.6;">
             In the meantime, you're still invited to the <strong style="color: #fff;">July 2nd mural unveiling</strong> 
-            at The Discovery Museum — and the <strong style="color: #fff;">July 4th Red, White & Flight</strong> event!
+            at The Discovery — and the <strong style="color: #fff;">July 4th Red, White & Flight</strong> event!
           </p>
           <p style="color: #666; font-size: 14px; margin-top: 30px;">
             — The Art of Aviation Community Mural Team
@@ -262,7 +262,7 @@ function backupPromotedEmail(artistName: string, gridCell: string): { subject: s
             <strong style="color: #fff;">Next steps:</strong>
           </p>
           <ol style="color: #999; font-size: 16px; line-height: 1.8; padding-left: 20px;">
-            <li>Pick up your canvas at <strong style="color: #fff;">The Discovery Museum</strong> (490 S Center St, Reno)</li>
+            <li>Pick up your canvas at <strong style="color: #fff;">The Discovery</strong> (490 S Center St, Reno)</li>
             <li>Paint your square — match the colors as closely as possible</li>
             <li>Return your completed canvas as soon as possible</li>
           </ol>
