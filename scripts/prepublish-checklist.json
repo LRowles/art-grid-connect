@@ -1,0 +1,51 @@
+[
+  {
+    "name": "Page title updated (index.html)",
+    "type": "string",
+    "file": "index.html",
+    "contains": "Art of Aviation Community Mural | Reno 250"
+  },
+  {
+    "name": "Gillemot Foundation mentioned on Register page",
+    "type": "string",
+    "file": "src/pages/Register.tsx",
+    "contains": "Gillemot Foundation"
+  },
+  {
+    "name": "Gillemot logo asset present in src/assets",
+    "type": "fileGlob",
+    "pattern": "src/assets/gillemot-logo.*"
+  },
+  {
+    "name": "Video element rendered on Follow Along page",
+    "type": "string",
+    "file": "src/pages/FollowAlong.tsx",
+    "contains": "<video"
+  },
+  {
+    "name": "Dropoff route registered in App.tsx",
+    "type": "regex",
+    "file": "src/App.tsx",
+    "pattern": "path=\"/drop-?off\""
+  },
+  {
+    "name": "Dropoff page component exists",
+    "type": "fileGlob",
+    "pattern": "src/pages/Drop*.tsx"
+  },
+  {
+    "name": "Built bundle contains page title",
+    "type": "bundle",
+    "contains": "Art of Aviation Community Mural"
+  },
+  {
+    "name": "Built bundle contains Gillemot logo asset",
+    "type": "bundleAsset",
+    "pattern": "gillemot-logo"
+  },
+  {
+    "name": "Built bundle includes Drop-off route chunk",
+    "type": "bundle",
+    "contains": "drop-off"
+  }
+]
