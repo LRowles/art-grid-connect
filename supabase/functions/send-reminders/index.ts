@@ -328,14 +328,41 @@ async function sendEmail(to: string, subject: string, html: string): Promise<boo
 // ============================================================
 
 serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
+
   try {
+    // ---- Authentication: require an authenticated (admin) user ----
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader?.startsWith("Bearer ")) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const token = authHeader.replace("Bearer ", "");
+    const authClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      global: { headers: { Authorization: authHeader } },
+    });
+    const { data: userData, error: userErr } = await authClient.auth.getUser(token);
+    if (userErr || !userData?.user) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const { email_type } = await req.json();
 
-    if (!email_type) {
-      return new Response(JSON.stringify({ error: "email_type is required" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+    if (!email_type || !ALLOWED_EMAIL_TYPES.has(email_type)) {
+      return new Response(
+        JSON.stringify({ error: "Invalid or missing email_type" }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
     }
 
     // Get all artists with email and their grid assignments
